@@ -44,7 +44,7 @@ clean:
 
 install:
 	install -d $(DESTDIR)$(bindir)
-	install -m 0755 $(TARGET) $(DESTDIR)$(bindir)
+	install -m 0755 $(BUILDDIR)/$(TARGET) $(DESTDIR)$(bindir)
 	install -m 0755 ../../supplementary/powerblockconfig.cfg $(DESTDIR)/$(sysconfdir)
 
 uninstall:
