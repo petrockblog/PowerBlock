@@ -10,14 +10,14 @@ LIBBCM2835_LIBDIR=$(LIBBCM2835_DIR)/src
 LIBS=-ljsoncpp -lbcm2835 -L$(LIBJSONCPP_LIBDIR) -I$(LIBJSONCPP_INCDIR) -L$(LIBBCM2835_LIBDIR) -I$(LIBBCM2835_INCDIR) -lrt -lpthread
 CFLAGS=-c -Wall -std=c++11 -O3 -I$(LIBJSONCPP_INCDIR) -I$(LIBBCM2835_INCDIR)
 
-TARGET := $(BUILDDIR)/powerblock
+TARGET := powerblock
 SRCEXT := cpp
 SOURCES := $(shell find $(SRCDIR) -type f -name "*.$(SRCEXT)")
 OBJECTS := $(patsubst $(SRCDIR)/%,$(BUILDDIR)/%,$(SOURCES:.$(SRCEXT)=.o))
 DEPS := $(OBJECTS:.o=.deps)
 
-all $(TARGET): $(LIBJSONCPP_LIBDIR)/libjsoncpp.a $(LIBBCM2835_LIBDIR)/libbcm2835.a $(OBJECTS)
-	@echo " Linking..."; $(CC) $^ $(LIBS) -o $(TARGET)
+all $(BUILDDIR)/$(TARGET): $(LIBJSONCPP_LIBDIR)/libjsoncpp.a $(LIBBCM2835_LIBDIR)/libbcm2835.a $(OBJECTS)
+	@echo " Linking..."; $(CC) $^ $(LIBS) -o $(BUILDDIR)/$(TARGET)
 
 $(BUILDDIR)/%.o: $(SRCDIR)/%.$(SRCEXT)
 	@mkdir -p $(BUILDDIR)
@@ -38,7 +38,7 @@ check:
 	@echo "*** NO TESTS IMPLEMENTED ***"
 
 clean:
-	@echo " Cleaning..."; $(RM) -r $(BUILDDIR) $(TARGET)
+	@echo " Cleaning..."; $(RM) -r $(BUILDDIR)/$(TARGET)
 
 -include $(DEPS)
 
