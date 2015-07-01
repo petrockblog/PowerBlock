@@ -1,0 +1,11 @@
+language: cpp
+compiler:
+  - gcc
+  - clang
+script: make && make test
+notifications:
+  email:
+    recipients:
+      - contact@petrockblock.com
+    on_success: change
+    on_failure: always
