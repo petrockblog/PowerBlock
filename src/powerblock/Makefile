@@ -49,6 +49,6 @@ install:
 
 uninstall:
 	-rm $(DESTDIR)$(bindir)/$(TARGET)
-	-rm $(DESTDIR)/$(sysconfdir)/powerblockconfig.cfg
+	-rm $(DESTDIR)$(sysconfdir)/powerblockconfig.cfg
 
 .PHONY: clean install uninstall
