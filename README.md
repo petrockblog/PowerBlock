@@ -10,7 +10,7 @@ To be able to successfully build _powerblock_ you need to have certain APT packa
 ```bash
 sudo apt-get update
 sudo apt-get upgrade -y
-sudo apt-get install -y cmake g++-4.8
+sudo apt-get install -y cmake g++-4.9
 ```
 
 ## Downloading the Sources
