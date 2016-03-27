@@ -35,6 +35,7 @@ GPIO::GPIO()
         {
             std::cout << "Error initializing GPIO." << std::endl;
         }
+        isBCM2835Initialized = true;
     }
 }
 
