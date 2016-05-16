@@ -1,6 +1,8 @@
 PowerBlock Driver
 =================
 
+[![Build Status](https://travis-ci.org/petrockblog/PowerBlock.svg?branch=master)](https://travis-ci.org/petrockblog/PowerBlock)
+
 This is the driver for the petrockblock.com PowerBlock, which is an extension board for the Raspberry Pi (TM). The driver itself is denoted as _powerblock_ in the following. The driver provides a service for interacting with the power button signal as well as driving the optionally attached LED.
 
 ## Prerequisites
