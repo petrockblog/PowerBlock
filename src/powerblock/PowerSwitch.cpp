@@ -51,7 +51,7 @@ void PowerSwitch::update()
             (getShutdownSignal() == SHUTDOWN_TRUE) &&
             (isShutdownInitiated == false))
     {
-        system("shutdown -t 3 -h now");
+        system("shutdown -h now");
         isShutdownInitiated = true;
     }
 }
