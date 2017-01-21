@@ -51,7 +51,7 @@ void PowerSwitch::update()
             (getShutdownSignal() == SHUTDOWN_TRUE) &&
             (isShutdownInitiated == false))
     {
-        system("shutdown -h now");
+        system("/etc/powerblockswitchoff.sh")
         isShutdownInitiated = true;
     }
 }
