@@ -68,6 +68,10 @@ The parameters are explained in detail in the following:
      + ```true```: Activates the handling of the power switch signals of the PowerBlock.
      + ```false```: Deactivates the handling of the power switch signals of the PowerBlock.
 
+## Shutdown Script
+
+When the driver observes a shutdown signal from the PowerBlock, a shutdown Bash script is called. You can find and edit it at `/usr/local/etc/powerblockswitchoff.sh`.
+
 <br><br>
 __Have fun!__
 
