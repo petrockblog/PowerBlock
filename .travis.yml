@@ -20,4 +20,4 @@ before_install:
   - sudo apt-get update -qq
 
 script:
-  - "bash -ex ./test/travis-ci.sh"
+  - "bash -ex ./scripts/travis-ci.sh"
