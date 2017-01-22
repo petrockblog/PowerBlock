@@ -24,9 +24,11 @@ git clone --recursive https://github.com/petrockblog/PowerBlock.git
 
 ## Building and Installation
 
-To build _controlblock_ follow these commands:
+To build the PowerBlock driver binary follow these commands:
 ```bash
 cd PowerBlock
+mkdir build && cd build
+cmake ..
 make
 ```
 
