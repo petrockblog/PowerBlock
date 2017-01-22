@@ -12,14 +12,14 @@ To be able to successfully build _powerblock_ you need to have certain APT packa
 ```bash
 sudo apt-get update
 sudo apt-get upgrade -y
-sudo apt-get install -y cmake g++-4.9
+sudo apt-get install -y cmake g++-4.9 doxygen
 ```
 
 ## Downloading the Sources
 
 If you would like to download the latest version of _powerblock_ from [its Github repository](https://github.com/petrockblog/PowerBlock), you can use this command:
 ```bash
-git clone https://github.com/petrockblog/PowerBlock.git
+git clone --recursive https://github.com/petrockblog/PowerBlock.git
 ```
 
 ## Building and Installation
@@ -58,7 +58,7 @@ sudo make uninstall
 
 ## Configuration
 
-The configuration file of _powerblock_ is located at ```/etc/powerblockconfig.cfg```. It uses JSON syntax for setting the the values of its configuration parameters.
+The configuration file of _powerblock_ is located at ```/usr/local/etc/powerblockconfig.cfg```. It uses JSON syntax for setting the the values of its configuration parameters.
 
 The parameters are explained in detail in the following:
 
