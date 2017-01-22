@@ -47,6 +47,7 @@ install:
 	install -d $(DESTDIR)$(bindir)
 	install -m 0755 $(BUILDDIR)/$(TARGET) $(DESTDIR)$(bindir)
 	install -m 0755 ../../supplementary/powerblockconfig.cfg $(DESTDIR)/$(sysconfdir)
+	install -m 0755 ../../supplementary/powerblockswitchoff.sh $(DESTDIR)/$(sysconfdir)
 
 uninstall:
 	-rm $(DESTDIR)$(bindir)/$(TARGET)
