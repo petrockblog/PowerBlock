@@ -36,7 +36,7 @@ add_custom_target(uninstall
         )
 
 add_custom_target(installservice
-        COMMAND chmod +x powerblock
+        COMMAND ./installService.sh
         WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/scripts
         COMMENT "Installing service."
         )
@@ -51,6 +51,3 @@ add_custom_target(uninstallservice
 
 # Doxygen documentation target
 add_subdirectory(doc)
-
-enable_testing()
-add_subdirectory(test)
