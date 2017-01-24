@@ -60,7 +60,7 @@ sudo make uninstall
 
 ## Configuration
 
-The configuration file of _powerblock_ is located at ```/usr/local/etc/powerblockconfig.cfg```. It uses JSON syntax for setting the the values of its configuration parameters.
+The configuration file of _powerblock_ is located at ```/etc/powerblockconfig.cfg```. It uses JSON syntax for setting the the values of its configuration parameters.
 
 The parameters are explained in detail in the following:
 
@@ -70,7 +70,7 @@ The parameters are explained in detail in the following:
 
 ## Shutdown Script
 
-When the driver observes a shutdown signal from the PowerBlock, a shutdown Bash script is called. You can find and edit it at `/usr/local/etc/powerblockswitchoff.sh`.
+When the driver observes a shutdown signal from the PowerBlock, a shutdown Bash script is called. You can find and edit it at `/etc/powerblockswitchoff.sh`.
 
 <br><br>
 __Have fun!__
