@@ -15,6 +15,19 @@ sudo apt-get upgrade -y
 sudo apt-get install -y cmake g++-4.9 doxygen
 ```
 
+## Quick Installation
+
+There comes an installation script with this reposity that does all the steps described below: `install.sh` This script compiles the driver, installs the binary and configuration files, and installs the PowerBlock service. 
+
+To run the quick installation, change into the PowerBlock directory and call the script:
+
+```bash
+cd PowerBlock
+sudo ./install.sh
+```
+
+To uninstall the service you can simply call `sudo ./uninstall.sh`.
+
 ## Downloading the Sources
 
 If you would like to download the latest version of _powerblock_ from [its Github repository](https://github.com/petrockblog/PowerBlock), you can use this command:
