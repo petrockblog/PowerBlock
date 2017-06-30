@@ -5,6 +5,19 @@ PowerBlock Driver
 
 This is the driver for the petrockblock.com PowerBlock, which is an extension board for the Raspberry Pi (TM). The driver itself is denoted as _powerblock_ in the following. The driver provides a service for interacting with the power button signal as well as driving the optionally attached LED.
 
+## Quick Installation
+
+There comes an installation script with this reposity that does all the steps described below: `install.sh` This script compiles the driver, installs the binary and configuration files, and installs the PowerBlock service. 
+
+To run the quick installation, you just need to call this one line from the Raspbian console
+
+```bash
+wget -O - https://raw.githubusercontent.com/petrockblog/PowerBlock/master install.sh | sudo bash
+```
+
+To uninstall the service you can simply call `sudo ./uninstall.sh` from within the `PowerBlock` directory.
+
+
 ## Prerequisites
 
 To be able to successfully build _powerblock_ you need to have certain APT packages installed. You can make sure that you have the latest version of those packages with these commands:
@@ -14,19 +27,6 @@ sudo apt-get update
 sudo apt-get upgrade -y
 sudo apt-get install -y cmake g++-4.9 doxygen
 ```
-
-## Quick Installation
-
-There comes an installation script with this reposity that does all the steps described below: `install.sh` This script compiles the driver, installs the binary and configuration files, and installs the PowerBlock service. 
-
-To run the quick installation, change into the PowerBlock directory and call the script:
-
-```bash
-cd PowerBlock
-sudo ./install.sh
-```
-
-To uninstall the service you can simply call `sudo ./uninstall.sh`.
 
 ## Downloading the Sources
 
