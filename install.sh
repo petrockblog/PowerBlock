@@ -9,6 +9,16 @@ fi
 # ensure that all needed OS packages are installed
 apt-get install -y git cmake g++-4.9 doxygen || (c=$?; echo "Error during installation of APT packages"; (exit $c))
 
+# ensure that we are within the PowerBlock directory
+currentDirectory=${PWD##*/}
+if [[ $currentDirectory != "PowerBlock" ]]; then
+    if [[ -d PowerBlock ]]; then
+        rm -rf PowerBlock
+    fi
+    git clone --recursive git://github.com/petrockblog/PowerBlock
+    cd PowerBlock
+fi
+
 # make sure that the submodule data is available
 git submodule update --init --recursive
 
