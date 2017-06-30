@@ -20,6 +20,8 @@ To uninstall the service you can simply call `sudo ./uninstall.sh` from within t
 
 ## Prerequisites
 
+If you did not follow the quick installation instructions above, you can manually execute the steps of the installation script. These are described in the following.
+
 To be able to successfully build _powerblock_ you need to have certain APT packages installed. You can make sure that you have the latest version of those packages with these commands:
 
 ```bash
