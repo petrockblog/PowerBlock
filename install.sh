@@ -7,7 +7,7 @@ if [[ "$(id -u)" -ne 0 ]]; then
 fi
 
 # ensure that all needed OS packages are installed
-apt-get install -y git cmake g++-4.9 doxygen || (c=$?; echo "Error during installation of APT packages"; (exit $c))
+apt-get install -y git cmake g++-4.9 doxygen build-essential || (c=$?; echo "Error during installation of APT packages"; (exit $c))
 
 # ensure that we are within the PowerBlock directory
 currentDirectory=${PWD##*/}
