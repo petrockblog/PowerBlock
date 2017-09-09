@@ -12,7 +12,7 @@ There comes an installation script with this reposity that does all the steps de
 To run the quick installation, you just need to call this one line from the Raspbian console
 
 ```bash
-wget -O - https://raw.githubusercontent.com/petrockblog/PowerBlock/master install.sh | sudo bash
+wget -O - https://raw.githubusercontent.com/petrockblog/PowerBlock/master/install.sh | sudo bash
 ```
 
 To uninstall the service you can simply call `sudo ./uninstall.sh` from within the `PowerBlock` directory.
