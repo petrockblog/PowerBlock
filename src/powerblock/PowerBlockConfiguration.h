@@ -27,11 +27,10 @@
 
 class PowerBlockConfiguration
 {
- public:
+public:
     enum ShutdownType_e
     {
-        SHUTDOWN_DEACTIVATED = 0,
-        SHUTDOWN_ACTIVATED
+        SHUTDOWN_DEACTIVATED = 0, SHUTDOWN_ACTIVATED
     };
 
     PowerBlockConfiguration();
@@ -40,7 +39,7 @@ class PowerBlockConfiguration
     void initialize();
     ShutdownType_e getShutdownActivation() const;
 
- private:
+private:
     ShutdownType_e doShutdown;
 };
 

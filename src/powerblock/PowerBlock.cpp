@@ -22,32 +22,33 @@
 
 #include "PowerBlock.h"
 #include <iostream>
-#include <map>
 
-PowerBlock::PowerBlock() : configuration(new PowerBlockConfiguration()) {
-    std::map<PowerBlockConfiguration::ShutdownType_e,
-             PowerSwitch::ShutdownActivated_e> switchMapping;
-    switchMapping[PowerBlockConfiguration::SHUTDOWN_ACTIVATED] =
-        PowerSwitch::SHUTDOWN_ACTIVATED;
-    switchMapping[PowerBlockConfiguration::SHUTDOWN_DEACTIVATED] =
-        PowerSwitch::SHUTDOWN_DEACTIVATED;
+PowerBlock::PowerBlock() :
+        configuration(new PowerBlockConfiguration())
+{
+    std::map<PowerBlockConfiguration::ShutdownType_e, PowerSwitch::ShutdownActivated_e> switchMapping;
+    switchMapping[PowerBlockConfiguration::SHUTDOWN_ACTIVATED] = PowerSwitch::SHUTDOWN_ACTIVATED;
+    switchMapping[PowerBlockConfiguration::SHUTDOWN_DEACTIVATED] = PowerSwitch::SHUTDOWN_DEACTIVATED;
 
     configuration->initialize();
 
     powerSwitch = new PowerSwitch(switchMapping[configuration->getShutdownActivation()]);
 }
 
-PowerBlock::~PowerBlock() {
+PowerBlock::~PowerBlock()
+{
     delete powerSwitch;
     delete configuration;
 }
 
-void PowerBlock::update() {
-    try {
+void PowerBlock::update()
+{
+    try
+    {
         powerSwitch->update();
-    } catch(int errno) {
-        std::cout
-            << "Error while updating the power switch instance. Error number: "
-            << errno << std::endl;
+    }
+    catch (int errno)
+    {
+        std::cout << "Error while updating the power switch instance. Error number: " << errno << std::endl;
     }
 }

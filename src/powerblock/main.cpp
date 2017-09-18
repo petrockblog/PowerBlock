@@ -22,51 +22,42 @@
 
 #include <stdio.h>
 #include <iostream>
-#include <chrono>
 #include <thread>
-#include <signal.h>
 
 #include <bcm2835.h>
-#include "PowerSwitch.h"
 #include "PowerBlock.h"
-#include "GPIO.h"
 
 static volatile sig_atomic_t doRun = 1;
 
 extern "C" {
-    void sig_handler(int signo)
+void sig_handler(int signo)
+{
+    if ((signo == SIGINT) | (signo == SIGQUIT) | (signo == SIGABRT) | (signo == SIGTERM))
     {
-        if((signo == SIGINT) | (signo == SIGQUIT) | (signo == SIGABRT) |
-                (signo == SIGTERM))
-        {
-            std::cout << "[ControlBlock] Releasing input devices." << std::endl;
-            doRun = 0;
-        }
+        std::cout << "[ControlBlock] Releasing input devices." << std::endl;
+        doRun = 0;
     }
+}
 }
 
 void register_signalhandlers()
 {
     /* Register signal handlers  */
-    if(signal(SIGINT, sig_handler) == SIG_ERR)
+    if (signal(SIGINT, sig_handler) == SIG_ERR)
     {
-        std::cout << std::endl << "[ControlBlock] Cannot catch SIGINT"
-                  << std::endl;
+        std::cout << std::endl << "[ControlBlock] Cannot catch SIGINT" << std::endl;
     }
-    if(signal(SIGQUIT, sig_handler) == SIG_ERR)
+    if (signal(SIGQUIT, sig_handler) == SIG_ERR)
     {
-        std::cout << std::endl << "[ControlBlock] Cannot catch SIGQUIT"
-                  << std::endl;
+        std::cout << std::endl << "[ControlBlock] Cannot catch SIGQUIT" << std::endl;
     }
-    if(signal(SIGABRT, sig_handler) == SIG_ERR)
+    if (signal(SIGABRT, sig_handler) == SIG_ERR)
     {
-        std::cout << std::endl << "[ControlBlock] Cannot catch SIGABRT"
-                  << std::endl;
+        std::cout << std::endl << "[ControlBlock] Cannot catch SIGABRT" << std::endl;
     }
-    if(signal(SIGTERM, sig_handler) == SIG_ERR)
+    if (signal(SIGTERM, sig_handler) == SIG_ERR)
     {
-        std::cout << std::endl << "[ControlBlock] Cannot catch SIGTERM"
-                  << std::endl;
+        std::cout << std::endl << "[ControlBlock] Cannot catch SIGTERM" << std::endl;
     }
 }
 
@@ -75,7 +66,7 @@ int main(int argc, char** argv)
     register_signalhandlers();
 
     PowerBlock powerBlock = PowerBlock();
-    while(doRun)
+    while (doRun)
     {
         powerBlock.update();
         bcm2835_delay(500);

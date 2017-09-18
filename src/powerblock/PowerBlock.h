@@ -35,7 +35,6 @@ public:
     PowerBlock();
     ~PowerBlock();
 
-    void initialize();
     void update();
 
 private:

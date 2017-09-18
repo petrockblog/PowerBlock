@@ -29,9 +29,9 @@ bool GPIO::isBCM2835Initialized = false;
 
 GPIO::GPIO()
 {
-    if(!isBCM2835Initialized)
+    if (!isBCM2835Initialized)
     {
-        if(!bcm2835_init())
+        if (!bcm2835_init())
         {
             std::cout << "Error initializing GPIO." << std::endl;
         }
@@ -49,35 +49,34 @@ GPIO::~GPIO()
 
 void GPIO::setDirection(uint16_t pin, Direction_e direction)
 {
-    if(direction == DIRECTION_OUT)
+    if (direction == DIRECTION_OUT)
     {
-        bcm2835_gpio_fsel((uint8_t)pin, BCM2835_GPIO_FSEL_OUTP);
+        bcm2835_gpio_fsel((uint8_t) pin, BCM2835_GPIO_FSEL_OUTP);
     }
-    else if(direction == DIRECTION_IN)
+    else if (direction == DIRECTION_IN)
     {
-        bcm2835_gpio_fsel((uint8_t)pin, BCM2835_GPIO_FSEL_INPT);
+        bcm2835_gpio_fsel((uint8_t) pin, BCM2835_GPIO_FSEL_INPT);
     }
 }
 
 void GPIO::setPullupMode(uint16_t pin, PullupMode_e mode)
 {
-    if(mode == PULLUP_ENABLED)
+    if (mode == PULLUP_ENABLED)
     {
-        bcm2835_gpio_set_pud((uint8_t)pin, BCM2835_GPIO_PUD_UP);
+        bcm2835_gpio_set_pud((uint8_t) pin, BCM2835_GPIO_PUD_UP);
     }
     else
     {
-        bcm2835_gpio_set_pud((uint8_t)pin, BCM2835_GPIO_PUD_OFF);
+        bcm2835_gpio_set_pud((uint8_t) pin, BCM2835_GPIO_PUD_OFF);
     }
 }
 
 GPIO::Level_e GPIO::read(uint16_t pin)
 {
-    return (bcm2835_gpio_lev((uint8_t)pin) == HIGH) ? LEVEL_HIGH
-           : LEVEL_LOW;
+    return (bcm2835_gpio_lev((uint8_t) pin) == HIGH) ? LEVEL_HIGH : LEVEL_LOW;
 }
 
 void GPIO::write(uint16_t pin, GPIO::Level_e level)
 {
-    bcm2835_gpio_write((uint8_t)pin, level == LEVEL_LOW ? LOW : HIGH);
+    bcm2835_gpio_write((uint8_t) pin, level == LEVEL_LOW ? LOW : HIGH);
 }

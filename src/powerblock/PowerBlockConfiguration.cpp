@@ -21,16 +21,16 @@
  */
 
 #include <iostream>
-#include <string>
 #include <fstream>
-#include <streambuf>
 
 #include "PowerBlockConfiguration.h"
 
-PowerBlockConfiguration::PowerBlockConfiguration()
-    : doShutdown(SHUTDOWN_ACTIVATED) {}
+PowerBlockConfiguration::PowerBlockConfiguration() :
+        doShutdown(SHUTDOWN_ACTIVATED)
+{ }
 
-PowerBlockConfiguration::~PowerBlockConfiguration() {}
+PowerBlockConfiguration::~PowerBlockConfiguration()
+{ }
 
 void PowerBlockConfiguration::initialize()
 {
@@ -40,19 +40,17 @@ void PowerBlockConfiguration::initialize()
         Json::Reader reader;
 
         std::ifstream t("/etc/powerblockconfig.cfg");
-        std::string config_doc((std::istreambuf_iterator<char>(t)),
-                               std::istreambuf_iterator<char>());
+        std::string config_doc((std::istreambuf_iterator<char>(t)), std::istreambuf_iterator<char>());
 
         bool parsingSuccessful = reader.parse(config_doc, root);
-        if(!parsingSuccessful)
+        if (!parsingSuccessful)
         {
-            std::cout << "[PowerBlock] Failed to parse configuration\n"
-                      << reader.getFormattedErrorMessages();
+            std::cout << "[PowerBlock] Failed to parse configuration\n" << reader.getFormattedErrorMessages();
             return;
         }
 
         bool configboolean = root["powerswitch"]["activated"].asBool();
-        if(configboolean)
+        if (configboolean)
         {
             doShutdown = SHUTDOWN_ACTIVATED;
             std::cout << "[PowerBlock] Shutdown is ACTIVATED" << std::endl;
@@ -63,16 +61,14 @@ void PowerBlockConfiguration::initialize()
             std::cout << "[PowerBlock] Shutdown is DEACTIVATED" << std::endl;
         }
     }
-    catch(int errno)
+    catch (int errno)
     {
         std::cout << "[PowerBlock] Error while initializing "
-                  "PowerBlockConfiguration instance. Error number: "
-                  << errno << std::endl;
+                "PowerBlockConfiguration instance. Error number: " << errno << std::endl;
     }
 }
 
-PowerBlockConfiguration::ShutdownType_e
-PowerBlockConfiguration::getShutdownActivation() const
+PowerBlockConfiguration::ShutdownType_e PowerBlockConfiguration::getShutdownActivation() const
 {
     return doShutdown;
 }

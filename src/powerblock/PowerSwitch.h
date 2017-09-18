@@ -25,31 +25,72 @@
 
 #include <stdint.h>
 
+/**
+ * This class implements the functionality of a physical power switch.
+ */
 class PowerSwitch
 {
- public:
-    typedef enum { STATE_OFF = 0, STATE_ON } PowerState_e;
-
-    typedef enum { SHUTDOWN_TRUE = 0, SHUTDOWN_FALSE } ShutdownSignal_e;
-
-    typedef enum
+public:
+    /**
+     * Power state indicator values
+     */
+    enum PowerState_e
     {
-        SHUTDOWN_ACTIVATED = 0,
-        SHUTDOWN_DEACTIVATED
-    } ShutdownActivated_e;
+        STATE_OFF = 0,  //!< Off state
+        STATE_ON        //!< On state
+    };
 
+    /**
+     * Signal levels of the shutdown signal
+     */
+    enum ShutdownSignal_e
+    {
+        SHUTDOWN_TRUE = 0,  //!< Logical high/true
+        SHUTDOWN_FALSE      //!< Logical low/false
+    };
+
+    /**
+     * Status indicators of the shutdown activation
+     */
+    enum ShutdownActivated_e
+    {
+        SHUTDOWN_ACTIVATED = 0, SHUTDOWN_DEACTIVATED
+    };
+
+    /**
+     * Constructor
+     * @param doShutdown Indicates whether the power switch should update its state (=true) or not (=false)
+     */
     explicit PowerSwitch(ShutdownActivated_e doShutdown);
+
+    /**
+     * Destructor
+     */
     ~PowerSwitch();
 
+    /**
+     * Read the signal level of the power switch and udpate internal state
+     */
     void update();
 
- private:
-    ShutdownActivated_e doShutdown;
+private:
+    static const uint16_t PIN_RPI_STATUS = 17;     //!< BCM pin number of the status signal pin
+    static const uint16_t PIN_RPI_SHUTDOWN = 18;   //!< BCM pin number of the shutdown signal pin
 
-    const uint16_t PIN_RPI_STATUS = 17;
-    const uint16_t PIN_RPI_SHUTDOWN = 18;
+    ShutdownActivated_e doShutdown;  //!< State of the shutdown activation
 
+    /**
+     * Sets the given level of the shutdown signal
+     * @param state The target state of signal level
+     */
     void setPowerSignal(PowerState_e state);
+
+    /**
+     * Gets the level of the shutdown signal
+     * @return
+     *  - SHUTDOWN_FALSE, if the signal level is logical low,
+     *  - SHUTDOWN_TRUE, otherwise.
+     */
     ShutdownSignal_e getShutdownSignal();
 };
 
