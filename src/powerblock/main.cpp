@@ -23,6 +23,8 @@
 #include <stdio.h>
 #include <iostream>
 #include <thread>
+#include <chrono>
+#include <signal.h>
 
 #include <bcm2835.h>
 #include "PowerBlock.h"
