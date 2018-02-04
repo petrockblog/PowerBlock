@@ -37,7 +37,7 @@ void sig_handler(int signo)
 {
     if ((signo == SIGINT) | (signo == SIGQUIT) | (signo == SIGABRT) | (signo == SIGTERM))
     {
-        std::cout << "[ControlBlock] Releasing input devices." << std::endl;
+        std::cout << "[PowerBlock] Releasing input devices." << std::endl;
         doRun = 0;
     }
 }
@@ -48,19 +48,19 @@ void register_signalhandlers()
     /* Register signal handlers  */
     if (signal(SIGINT, sig_handler) == SIG_ERR)
     {
-        std::cout << std::endl << "[ControlBlock] Cannot catch SIGINT" << std::endl;
+        std::cout << std::endl << "[PowerBlock] Cannot catch SIGINT" << std::endl;
     }
     if (signal(SIGQUIT, sig_handler) == SIG_ERR)
     {
-        std::cout << std::endl << "[ControlBlock] Cannot catch SIGQUIT" << std::endl;
+        std::cout << std::endl << "[PowerBlock] Cannot catch SIGQUIT" << std::endl;
     }
     if (signal(SIGABRT, sig_handler) == SIG_ERR)
     {
-        std::cout << std::endl << "[ControlBlock] Cannot catch SIGABRT" << std::endl;
+        std::cout << std::endl << "[PowerBlock] Cannot catch SIGABRT" << std::endl;
     }
     if (signal(SIGTERM, sig_handler) == SIG_ERR)
     {
-        std::cout << std::endl << "[ControlBlock] Cannot catch SIGTERM" << std::endl;
+        std::cout << std::endl << "[PowerBlock] Cannot catch SIGTERM" << std::endl;
     }
 }
 
