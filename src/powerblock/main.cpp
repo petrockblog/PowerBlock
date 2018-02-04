@@ -28,6 +28,7 @@
 
 #include <bcm2835.h>
 #include "PowerBlock.h"
+#include "version.h"
 
 static volatile sig_atomic_t doRun = 1;
 
@@ -65,6 +66,8 @@ void register_signalhandlers()
 
 int main(int argc, char** argv)
 {
+    std::cout << std::endl << "[PowerBlock] Starting driver, version " << VERSION_MAJOR << "." << VERSION_MINOR << "." << VERSION_PATCH << std::endl;
+
     register_signalhandlers();
 
     PowerBlock powerBlock = PowerBlock();
