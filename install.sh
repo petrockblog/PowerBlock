@@ -34,7 +34,7 @@ pushd build || (c=$?; echo "Error while changing into the folder build"; (exit $
 cmake .. || (c=$?; echo "Error while generating Makefiles"; (exit $c))
 
 # ensure that no old instance of the driver is running
-isOldServiceRunning=$(service powerblock status | grep running | wc -l)
+isOldServiceRunning=$(ps -ef | grep powerblock | grep -v grep)
 if [[ $isOldServiceRunning -eq 1 ]]; then
     make uninstallservice
 fi 
@@ -61,7 +61,7 @@ else
 fi
 
 # check that the service is running
-isServiceRunning=$(service powerblock status | grep running | wc -l)
+isServiceRunning=$(ps -ef | grep powerblock | grep -v grep)
 if [[ $isServiceRunning -eq 1 ]]; then
     echo "[SUCCESS] The PowerBlock service is running"
 else
