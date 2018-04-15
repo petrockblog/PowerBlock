@@ -62,7 +62,7 @@ fi
 
 # check that the service is running
 isServiceRunning=$(ps -ef | grep powerblock | grep -v grep)
-if [[ $isServiceRunning -eq 1 ]]; then
+if [[ ! -z $isServiceRunning ]]; then
     echo "[SUCCESS] The PowerBlock service is running"
 else
     echo "[ERROR] The PowerBlock service is not running"
