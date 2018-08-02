@@ -72,7 +72,7 @@ int main(int argc, char** argv)
 
     register_signalhandlers();
 
-    PowerBlock powerBlock = PowerBlock();
+    PowerBlock powerBlock;
     while (doRun)
     {
         powerBlock.update();

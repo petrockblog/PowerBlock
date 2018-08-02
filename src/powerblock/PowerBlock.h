@@ -24,6 +24,7 @@
 #define POWERBLOCK_H
 
 #include <stdint.h>
+#include <memory>
 #include "PowerSwitch.h"
 #include "PowerBlockConfiguration.h"
 
@@ -38,7 +39,7 @@ public:
     void update();
 
 private:
-    PowerSwitch* powerSwitch;
+    std::unique_ptr<PowerSwitch> powerSwitch;
     PowerBlockConfiguration* configuration;
 };
 

@@ -33,12 +33,12 @@ PowerBlock::PowerBlock() :
 
     configuration->initialize();
 
-    powerSwitch = new PowerSwitch(switchMapping[configuration->getShutdownActivation()]);
+    std::unique_ptr<PowerSwitch> tempPtr(new PowerSwitch(switchMapping[configuration->getShutdownActivation()]));
+    powerSwitch = std::move(tempPtr);
 }
 
 PowerBlock::~PowerBlock()
 {
-    delete powerSwitch;
     delete configuration;
 }
 
