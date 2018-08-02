@@ -66,7 +66,7 @@ void register_signalhandlers()
 
 int main(int argc, char** argv)
 {
-    plog::init(plog::debug, "/var/log/powerblock.log");
+    plog::init(plog::debug, "/var/log/powerblock.log", 1048576, 2);
 
     LOG_INFO << "Starting PowerBlock driver, version " << VERSION_MAJOR << "." << VERSION_MINOR << "." << VERSION_PATCH;
 
