@@ -37,11 +37,6 @@ PowerBlock::PowerBlock() :
     powerSwitch = std::move(tempPtr);
 }
 
-PowerBlock::~PowerBlock()
-{
-    delete configuration;
-}
-
 void PowerBlock::update()
 {
     try

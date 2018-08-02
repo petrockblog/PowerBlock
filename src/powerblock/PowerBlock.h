@@ -31,16 +31,14 @@
 class PowerBlock
 {
 public:
-    static const uint8_t NUMGAMEPADS = 2;
-
     PowerBlock();
-    ~PowerBlock();
+    ~PowerBlock() = default;
 
     void update();
 
 private:
     std::unique_ptr<PowerSwitch> powerSwitch;
-    PowerBlockConfiguration* configuration;
+    std::unique_ptr<PowerBlockConfiguration> configuration;
 };
 
 #endif  // POWERBLOCK_H

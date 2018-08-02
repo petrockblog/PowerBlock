@@ -59,10 +59,12 @@ void PowerSwitch::setPowerSignal(PowerState_e state)
 {
     if (state == STATE_OFF)
     {
+        LOG_INFO << "Setting RPi status signal to LOW";
         GPIO::getInstance().write(PIN_RPI_STATUS, GPIO::LEVEL_LOW);
     }
     else
     {
+        LOG_INFO << "Setting RPi status signal to HIGH";
         GPIO::getInstance().write(PIN_RPI_STATUS, GPIO::LEVEL_HIGH);
     }
 }
