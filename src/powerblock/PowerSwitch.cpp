@@ -25,6 +25,8 @@
 #include "PowerSwitch.h"
 #include "GPIO.h"
 
+const char* PowerSwitch::SHUTDOWNSCRIPT = "/etc/powerblockswitchoff.sh";
+
 PowerSwitch::PowerSwitch(ShutdownActivated_e doShutdown) :
         doShutdown(SHUTDOWN_ACTIVATED)
 {
@@ -47,8 +49,8 @@ void PowerSwitch::update()
 
     if ((doShutdown == SHUTDOWN_ACTIVATED) && (getShutdownSignal() == SHUTDOWN_TRUE) && (!isShutdownInitiated))
     {
-        LOG_INFO << "Shutdown signal observed. Executing shutdownscript " << PowerSwitch::SHUTDOWNSCRIPT << " and initiating shutdown.";
-        system(&SHUTDOWNSCRIPT.front());
+        LOG_INFO << "Shutdown signal observed. Executing shutdownscript " << SHUTDOWNSCRIPT << " and initiating shutdown.";
+        system(SHUTDOWNSCRIPT);
         isShutdownInitiated = true;
     }
 }
