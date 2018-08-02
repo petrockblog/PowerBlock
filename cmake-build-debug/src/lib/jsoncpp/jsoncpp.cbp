@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="jsoncpp"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="clang"/>
+		<Option virtualFolders="CMake Files\;CMake Files\src\;CMake Files\src\lib\;CMake Files\src\lib\jsoncpp\;CMake Files\src\lib\jsoncpp\src\;CMake Files\src\lib\jsoncpp\src\lib_json\;CMake Files\src\lib\jsoncpp\src\jsontestrunner\;CMake Files\src\lib\jsoncpp\src\test_lib_json\;CMake Files\src\lib\jsoncpp\pkg-config\;CMake Files\src\lib\jsoncpp\include\;CMake Files\src\lib\bcm2835-1.48\;CMake Files\src\lib\bcm2835-1.48\src\;CMake Files\src\powerblock\;CMake Files\doc\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/Users/florian/Programming/Github/PowerBlock/cmake-build-debug/src/lib/jsoncpp"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/Users/florian/Programming/Github/PowerBlock/cmake-build-debug/src/lib/jsoncpp/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/Users/florian/Programming/Github/PowerBlock/cmake-build-debug/src/lib/jsoncpp/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/Users/florian/Programming/Github/PowerBlock/cmake-build-debug/src/lib/jsoncpp/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/Users/florian/Programming/Github/PowerBlock/cmake-build-debug/src/lib/jsoncpp/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="jsoncpp_lib_static">
+				<Option output="/Users/florian/Programming/Github/PowerBlock/cmake-build-debug/src/lib/jsoncpp/src/lib_json/libjsoncpp.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/florian/Programming/Github/PowerBlock/cmake-build-debug/src/lib/jsoncpp/src/lib_json"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="clang"/>
+				<Compiler>
+					<Add directory="/Users/florian/Programming/Github/PowerBlock/src/powerblock"/>
+					<Add directory="/Users/florian/Programming/Github/PowerBlock/src/lib/bcm2835-1.48/src"/>
+					<Add directory="/Users/florian/Programming/Github/PowerBlock/src/lib/jsoncpp/include"/>
+					<Add directory="/Users/florian/Programming/Github/PowerBlock/src/lib/plog/include"/>
+					<Add directory="/Users/florian/Programming/Github/PowerBlock/src/lib/jsoncpp/src/lib_json/../../include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/9.1.0/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/Users/florian/Programming/Github/PowerBlock/cmake-build-debug/src/lib/jsoncpp/src/lib_json/Makefile&quot;  VERBOSE=1 jsoncpp_lib_static"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/Users/florian/Programming/Github/PowerBlock/cmake-build-debug/src/lib/jsoncpp/src/lib_json/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/Users/florian/Programming/Github/PowerBlock/cmake-build-debug/src/lib/jsoncpp/src/lib_json/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/Users/florian/Programming/Github/PowerBlock/cmake-build-debug/src/lib/jsoncpp/src/lib_json/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="jsoncpp_lib_static/fast">
+				<Option output="/Users/florian/Programming/Github/PowerBlock/cmake-build-debug/src/lib/jsoncpp/src/lib_json/libjsoncpp.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/florian/Programming/Github/PowerBlock/cmake-build-debug/src/lib/jsoncpp/src/lib_json"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="clang"/>
+				<Compiler>
+					<Add directory="/Users/florian/Programming/Github/PowerBlock/src/powerblock"/>
+					<Add directory="/Users/florian/Programming/Github/PowerBlock/src/lib/bcm2835-1.48/src"/>
+					<Add directory="/Users/florian/Programming/Github/PowerBlock/src/lib/jsoncpp/include"/>
+					<Add directory="/Users/florian/Programming/Github/PowerBlock/src/lib/plog/include"/>
+					<Add directory="/Users/florian/Programming/Github/PowerBlock/src/lib/jsoncpp/src/lib_json/../../include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/9.1.0/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/Users/florian/Programming/Github/PowerBlock/cmake-build-debug/src/lib/jsoncpp/src/lib_json/Makefile&quot;  VERBOSE=1 jsoncpp_lib_static/fast"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/Users/florian/Programming/Github/PowerBlock/cmake-build-debug/src/lib/jsoncpp/src/lib_json/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/Users/florian/Programming/Github/PowerBlock/cmake-build-debug/src/lib/jsoncpp/src/lib_json/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/Users/florian/Programming/Github/PowerBlock/cmake-build-debug/src/lib/jsoncpp/src/lib_json/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="jsoncpp_check">
+				<Option working_dir="/Users/florian/Programming/Github/PowerBlock/cmake-build-debug/src/lib/jsoncpp/src/jsontestrunner"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/Users/florian/Programming/Github/PowerBlock/cmake-build-debug/src/lib/jsoncpp/src/jsontestrunner/Makefile&quot;  VERBOSE=1 jsoncpp_check"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/Users/florian/Programming/Github/PowerBlock/cmake-build-debug/src/lib/jsoncpp/src/jsontestrunner/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/Users/florian/Programming/Github/PowerBlock/cmake-build-debug/src/lib/jsoncpp/src/jsontestrunner/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/Users/florian/Programming/Github/PowerBlock/cmake-build-debug/src/lib/jsoncpp/src/jsontestrunner/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="jsoncpp_readerwriter_tests">
+				<Option working_dir="/Users/florian/Programming/Github/PowerBlock/cmake-build-debug/src/lib/jsoncpp/src/jsontestrunner"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/Users/florian/Programming/Github/PowerBlock/cmake-build-debug/src/lib/jsoncpp/src/jsontestrunner/Makefile&quot;  VERBOSE=1 jsoncpp_readerwriter_tests"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/Users/florian/Programming/Github/PowerBlock/cmake-build-debug/src/lib/jsoncpp/src/jsontestrunner/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/Users/florian/Programming/Github/PowerBlock/cmake-build-debug/src/lib/jsoncpp/src/jsontestrunner/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/Users/florian/Programming/Github/PowerBlock/cmake-build-debug/src/lib/jsoncpp/src/jsontestrunner/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="jsontestrunner_exe">
+				<Option output="/Users/florian/Programming/Github/PowerBlock/cmake-build-debug/src/lib/jsoncpp/src/jsontestrunner/jsontestrunner_exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/florian/Programming/Github/PowerBlock/cmake-build-debug/src/lib/jsoncpp/src/jsontestrunner"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="clang"/>
+				<Compiler>
+					<Add directory="/Users/florian/Programming/Github/PowerBlock/src/powerblock"/>
+					<Add directory="/Users/florian/Programming/Github/PowerBlock/src/lib/bcm2835-1.48/src"/>
+					<Add directory="/Users/florian/Programming/Github/PowerBlock/src/lib/jsoncpp/include"/>
+					<Add directory="/Users/florian/Programming/Github/PowerBlock/src/lib/plog/include"/>
+					<Add directory="/Users/florian/Programming/Github/PowerBlock/src/lib/jsoncpp/src/lib_json/../../include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/9.1.0/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/Users/florian/Programming/Github/PowerBlock/cmake-build-debug/src/lib/jsoncpp/src/jsontestrunner/Makefile&quot;  VERBOSE=1 jsontestrunner_exe"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/Users/florian/Programming/Github/PowerBlock/cmake-build-debug/src/lib/jsoncpp/src/jsontestrunner/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/Users/florian/Programming/Github/PowerBlock/cmake-build-debug/src/lib/jsoncpp/src/jsontestrunner/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/Users/florian/Programming/Github/PowerBlock/cmake-build-debug/src/lib/jsoncpp/src/jsontestrunner/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="jsontestrunner_exe/fast">
+				<Option output="/Users/florian/Programming/Github/PowerBlock/cmake-build-debug/src/lib/jsoncpp/src/jsontestrunner/jsontestrunner_exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/florian/Programming/Github/PowerBlock/cmake-build-debug/src/lib/jsoncpp/src/jsontestrunner"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="clang"/>
+				<Compiler>
+					<Add directory="/Users/florian/Programming/Github/PowerBlock/src/powerblock"/>
+					<Add directory="/Users/florian/Programming/Github/PowerBlock/src/lib/bcm2835-1.48/src"/>
+					<Add directory="/Users/florian/Programming/Github/PowerBlock/src/lib/jsoncpp/include"/>
+					<Add directory="/Users/florian/Programming/Github/PowerBlock/src/lib/plog/include"/>
+					<Add directory="/Users/florian/Programming/Github/PowerBlock/src/lib/jsoncpp/src/lib_json/../../include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/9.1.0/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/Users/florian/Programming/Github/PowerBlock/cmake-build-debug/src/lib/jsoncpp/src/jsontestrunner/Makefile&quot;  VERBOSE=1 jsontestrunner_exe/fast"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/Users/florian/Programming/Github/PowerBlock/cmake-build-debug/src/lib/jsoncpp/src/jsontestrunner/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/Users/florian/Programming/Github/PowerBlock/cmake-build-debug/src/lib/jsoncpp/src/jsontestrunner/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/Users/florian/Programming/Github/PowerBlock/cmake-build-debug/src/lib/jsoncpp/src/jsontestrunner/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="jsoncpp_test">
+				<Option output="/Users/florian/Programming/Github/PowerBlock/cmake-build-debug/src/lib/jsoncpp/src/test_lib_json/jsoncpp_test" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/florian/Programming/Github/PowerBlock/cmake-build-debug/src/lib/jsoncpp/src/test_lib_json"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="clang"/>
+				<Compiler>
+					<Add directory="/Users/florian/Programming/Github/PowerBlock/src/powerblock"/>
+					<Add directory="/Users/florian/Programming/Github/PowerBlock/src/lib/bcm2835-1.48/src"/>
+					<Add directory="/Users/florian/Programming/Github/PowerBlock/src/lib/jsoncpp/include"/>
+					<Add directory="/Users/florian/Programming/Github/PowerBlock/src/lib/plog/include"/>
+					<Add directory="/Users/florian/Programming/Github/PowerBlock/src/lib/jsoncpp/src/lib_json/../../include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/9.1.0/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/Users/florian/Programming/Github/PowerBlock/cmake-build-debug/src/lib/jsoncpp/src/test_lib_json/Makefile&quot;  VERBOSE=1 jsoncpp_test"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/Users/florian/Programming/Github/PowerBlock/cmake-build-debug/src/lib/jsoncpp/src/test_lib_json/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/Users/florian/Programming/Github/PowerBlock/cmake-build-debug/src/lib/jsoncpp/src/test_lib_json/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/Users/florian/Programming/Github/PowerBlock/cmake-build-debug/src/lib/jsoncpp/src/test_lib_json/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="jsoncpp_test/fast">
+				<Option output="/Users/florian/Programming/Github/PowerBlock/cmake-build-debug/src/lib/jsoncpp/src/test_lib_json/jsoncpp_test" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/florian/Programming/Github/PowerBlock/cmake-build-debug/src/lib/jsoncpp/src/test_lib_json"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="clang"/>
+				<Compiler>
+					<Add directory="/Users/florian/Programming/Github/PowerBlock/src/powerblock"/>
+					<Add directory="/Users/florian/Programming/Github/PowerBlock/src/lib/bcm2835-1.48/src"/>
+					<Add directory="/Users/florian/Programming/Github/PowerBlock/src/lib/jsoncpp/include"/>
+					<Add directory="/Users/florian/Programming/Github/PowerBlock/src/lib/plog/include"/>
+					<Add directory="/Users/florian/Programming/Github/PowerBlock/src/lib/jsoncpp/src/lib_json/../../include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/9.1.0/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/Users/florian/Programming/Github/PowerBlock/cmake-build-debug/src/lib/jsoncpp/src/test_lib_json/Makefile&quot;  VERBOSE=1 jsoncpp_test/fast"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/Users/florian/Programming/Github/PowerBlock/cmake-build-debug/src/lib/jsoncpp/src/test_lib_json/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/Users/florian/Programming/Github/PowerBlock/cmake-build-debug/src/lib/jsoncpp/src/test_lib_json/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/Users/florian/Programming/Github/PowerBlock/cmake-build-debug/src/lib/jsoncpp/src/test_lib_json/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/Users/florian/Programming/Github/PowerBlock/src/lib/jsoncpp/include/json/assertions.h">
+			<Option target="jsoncpp_lib_static"/>
+		</Unit>
+		<Unit filename="/Users/florian/Programming/Github/PowerBlock/src/lib/jsoncpp/include/json/config.h">
+			<Option target="jsoncpp_lib_static"/>
+		</Unit>
+		<Unit filename="/Users/florian/Programming/Github/PowerBlock/src/lib/jsoncpp/include/json/features.h">
+			<Option target="jsoncpp_lib_static"/>
+		</Unit>
+		<Unit filename="/Users/florian/Programming/Github/PowerBlock/src/lib/jsoncpp/include/json/forwards.h">
+			<Option target="jsoncpp_lib_static"/>
+		</Unit>
+		<Unit filename="/Users/florian/Programming/Github/PowerBlock/src/lib/jsoncpp/include/json/reader.h">
+			<Option target="jsoncpp_lib_static"/>
+		</Unit>
+		<Unit filename="/Users/florian/Programming/Github/PowerBlock/src/lib/jsoncpp/include/json/value.h">
+			<Option target="jsoncpp_lib_static"/>
+		</Unit>
+		<Unit filename="/Users/florian/Programming/Github/PowerBlock/src/lib/jsoncpp/include/json/version.h">
+			<Option target="jsoncpp_lib_static"/>
+		</Unit>
+		<Unit filename="/Users/florian/Programming/Github/PowerBlock/src/lib/jsoncpp/include/json/writer.h">
+			<Option target="jsoncpp_lib_static"/>
+		</Unit>
+		<Unit filename="/Users/florian/Programming/Github/PowerBlock/src/lib/jsoncpp/src/jsontestrunner/main.cpp">
+			<Option target="jsontestrunner_exe"/>
+		</Unit>
+		<Unit filename="/Users/florian/Programming/Github/PowerBlock/src/lib/jsoncpp/src/lib_json/json_reader.cpp">
+			<Option target="jsoncpp_lib_static"/>
+		</Unit>
+		<Unit filename="/Users/florian/Programming/Github/PowerBlock/src/lib/jsoncpp/src/lib_json/json_tool.h">
+			<Option target="jsoncpp_lib_static"/>
+		</Unit>
+		<Unit filename="/Users/florian/Programming/Github/PowerBlock/src/lib/jsoncpp/src/lib_json/json_value.cpp">
+			<Option target="jsoncpp_lib_static"/>
+		</Unit>
+		<Unit filename="/Users/florian/Programming/Github/PowerBlock/src/lib/jsoncpp/src/lib_json/json_valueiterator.inl">
+			<Option target="jsoncpp_lib_static"/>
+		</Unit>
+		<Unit filename="/Users/florian/Programming/Github/PowerBlock/src/lib/jsoncpp/src/lib_json/json_writer.cpp">
+			<Option target="jsoncpp_lib_static"/>
+		</Unit>
+		<Unit filename="/Users/florian/Programming/Github/PowerBlock/src/lib/jsoncpp/src/lib_json/version.h.in">
+			<Option target="jsoncpp_lib_static"/>
+		</Unit>
+		<Unit filename="/Users/florian/Programming/Github/PowerBlock/src/lib/jsoncpp/src/test_lib_json/jsontest.cpp">
+			<Option target="jsoncpp_test"/>
+		</Unit>
+		<Unit filename="/Users/florian/Programming/Github/PowerBlock/src/lib/jsoncpp/src/test_lib_json/jsontest.h">
+			<Option target="jsoncpp_test"/>
+		</Unit>
+		<Unit filename="/Users/florian/Programming/Github/PowerBlock/src/lib/jsoncpp/src/test_lib_json/main.cpp">
+			<Option target="jsoncpp_test"/>
+		</Unit>
+		<Unit filename="/Users/florian/Programming/Github/PowerBlock/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+		<Unit filename="/Users/florian/Programming/Github/PowerBlock/src/lib/jsoncpp/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\src\lib\jsoncpp\"/>
+		</Unit>
+		<Unit filename="/Users/florian/Programming/Github/PowerBlock/src/lib/jsoncpp/version.in">
+			<Option virtualFolder="CMake Files\src\lib\jsoncpp\"/>
+		</Unit>
+		<Unit filename="/Users/florian/Programming/Github/PowerBlock/src/lib/jsoncpp/src/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\src\lib\jsoncpp\src\"/>
+		</Unit>
+		<Unit filename="/Users/florian/Programming/Github/PowerBlock/src/lib/jsoncpp/src/lib_json/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\src\lib\jsoncpp\src\lib_json\"/>
+		</Unit>
+		<Unit filename="/Users/florian/Programming/Github/PowerBlock/src/lib/jsoncpp/src/lib_json/version.h.in">
+			<Option virtualFolder="CMake Files\src\lib\jsoncpp\src\lib_json\"/>
+		</Unit>
+		<Unit filename="/Users/florian/Programming/Github/PowerBlock/src/lib/jsoncpp/src/jsontestrunner/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\src\lib\jsoncpp\src\jsontestrunner\"/>
+		</Unit>
+		<Unit filename="/Users/florian/Programming/Github/PowerBlock/src/lib/jsoncpp/src/test_lib_json/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\src\lib\jsoncpp\src\test_lib_json\"/>
+		</Unit>
+		<Unit filename="/Users/florian/Programming/Github/PowerBlock/src/lib/jsoncpp/pkg-config/jsoncpp.pc.in">
+			<Option virtualFolder="CMake Files\src\lib\jsoncpp\pkg-config\"/>
+		</Unit>
+		<Unit filename="/Users/florian/Programming/Github/PowerBlock/src/lib/jsoncpp/include/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\src\lib\jsoncpp\include\"/>
+		</Unit>
+		<Unit filename="/Users/florian/Programming/Github/PowerBlock/src/lib/bcm2835-1.48/src/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\src\lib\bcm2835-1.48\src\"/>
+		</Unit>
+		<Unit filename="/Users/florian/Programming/Github/PowerBlock/src/powerblock/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\src\powerblock\"/>
+		</Unit>
+		<Unit filename="/Users/florian/Programming/Github/PowerBlock/doc/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\doc\"/>
+		</Unit>
+		<Unit filename="/Users/florian/Programming/Github/PowerBlock/doc/Doxyfile.in">
+			<Option virtualFolder="CMake Files\doc\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>

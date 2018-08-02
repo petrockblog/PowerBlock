@@ -25,7 +25,7 @@
 #include <thread>
 #include <chrono>
 #include <signal.h>
-
+#include <plog/Log.h>
 #include <bcm2835.h>
 #include "PowerBlock.h"
 #include "version.h"
@@ -35,9 +35,9 @@ static volatile sig_atomic_t doRun = 1;
 extern "C" {
 void sig_handler(int signo)
 {
-    if ((signo == SIGINT) | (signo == SIGQUIT) | (signo == SIGABRT) | (signo == SIGTERM))
+    if ((signo == SIGINT) || (signo == SIGQUIT) || (signo == SIGABRT) || (signo == SIGTERM))
     {
-        std::cout << "[PowerBlock] Releasing input devices." << std::endl;
+        LOG_INFO << "Releasing input devices.";
         doRun = 0;
     }
 }
@@ -48,25 +48,27 @@ void register_signalhandlers()
     /* Register signal handlers  */
     if (signal(SIGINT, sig_handler) == SIG_ERR)
     {
-        std::cout << std::endl << "[PowerBlock] Cannot catch SIGINT" << std::endl;
+        LOG_ERROR << "Cannot catch SIGINT";
     }
     if (signal(SIGQUIT, sig_handler) == SIG_ERR)
     {
-        std::cout << std::endl << "[PowerBlock] Cannot catch SIGQUIT" << std::endl;
+        LOG_ERROR << "Cannot catch SIGQUIT";
     }
     if (signal(SIGABRT, sig_handler) == SIG_ERR)
     {
-        std::cout << std::endl << "[PowerBlock] Cannot catch SIGABRT" << std::endl;
+        LOG_ERROR << "Cannot catch SIGABRT";
     }
     if (signal(SIGTERM, sig_handler) == SIG_ERR)
     {
-        std::cout << std::endl << "[PowerBlock] Cannot catch SIGTERM" << std::endl;
+        LOG_ERROR << "Cannot catch SIGTERM";
     }
 }
 
 int main(int argc, char** argv)
 {
-    std::cout << std::endl << "[PowerBlock] Starting driver, version " << VERSION_MAJOR << "." << VERSION_MINOR << "." << VERSION_PATCH << std::endl;
+    plog::init(plog::debug, "/var/log/powerblock.log");
+
+    LOG_INFO << "Starting PowerBlock driver, version " << VERSION_MAJOR << "." << VERSION_MINOR << "." << VERSION_PATCH;
 
     register_signalhandlers();
 
@@ -77,5 +79,6 @@ int main(int argc, char** argv)
         bcm2835_delay(500);
     }
 
+    LOG_INFO << "Exiting PowerBlock driver.";
     return 0;
 }

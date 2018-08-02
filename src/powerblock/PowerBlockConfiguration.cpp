@@ -22,14 +22,11 @@
 
 #include <iostream>
 #include <fstream>
-
+#include <plog/Log.h>
 #include "PowerBlockConfiguration.h"
 
 PowerBlockConfiguration::PowerBlockConfiguration() :
         doShutdown(SHUTDOWN_ACTIVATED)
-{ }
-
-PowerBlockConfiguration::~PowerBlockConfiguration()
 { }
 
 void PowerBlockConfiguration::initialize()
@@ -45,7 +42,7 @@ void PowerBlockConfiguration::initialize()
         bool parsingSuccessful = reader.parse(config_doc, root);
         if (!parsingSuccessful)
         {
-            std::cout << "[PowerBlock] Failed to parse configuration\n" << reader.getFormattedErrorMessages();
+            LOG_INFO << "Failed to parse configuration\n" << reader.getFormattedErrorMessages();
             return;
         }
 
@@ -53,18 +50,18 @@ void PowerBlockConfiguration::initialize()
         if (configboolean)
         {
             doShutdown = SHUTDOWN_ACTIVATED;
-            std::cout << "[PowerBlock] Shutdown is ACTIVATED" << std::endl;
+            LOG_INFO << "Shutdown is ACTIVATED";
         }
         else
         {
             doShutdown = SHUTDOWN_DEACTIVATED;
-            std::cout << "[PowerBlock] Shutdown is DEACTIVATED" << std::endl;
+            LOG_INFO << "Shutdown is DEACTIVATED";
         }
     }
     catch (int errno)
     {
-        std::cout << "[PowerBlock] Error while initializing "
-                "PowerBlockConfiguration instance. Error number: " << errno << std::endl;
+        LOG_ERROR << "Error while initializing "
+                "PowerBlockConfiguration instance. Error number: " << errno;
     }
 }
 

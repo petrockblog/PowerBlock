@@ -34,7 +34,7 @@ public:
     };
 
     PowerBlockConfiguration();
-    ~PowerBlockConfiguration();
+    ~PowerBlockConfiguration() = default;
 
     void initialize();
     ShutdownType_e getShutdownActivation() const;

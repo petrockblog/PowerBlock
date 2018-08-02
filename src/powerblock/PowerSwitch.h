@@ -24,6 +24,7 @@
 #define POWERSWITCH_H
 
 #include <stdint.h>
+#include <string_view>
 
 /**
  * This class implements the functionality of a physical power switch.
@@ -66,7 +67,7 @@ public:
     /**
      * Destructor
      */
-    ~PowerSwitch();
+    ~PowerSwitch() = default;
 
     /**
      * Read the signal level of the power switch and udpate internal state
@@ -74,6 +75,7 @@ public:
     void update();
 
 private:
+    static constexpr std::string_view SHUTDOWNSCRIPT = "/etc/powerblockswitchoff.sh";
     static const uint16_t PIN_RPI_STATUS = 17;     //!< BCM pin number of the status signal pin
     static const uint16_t PIN_RPI_SHUTDOWN = 18;   //!< BCM pin number of the shutdown signal pin
 

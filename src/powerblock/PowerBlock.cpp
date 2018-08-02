@@ -20,8 +20,9 @@
  * in future versions.
  */
 
-#include "PowerBlock.h"
 #include <iostream>
+#include <plog/Log.h>
+#include "PowerBlock.h"
 
 PowerBlock::PowerBlock() :
         configuration(new PowerBlockConfiguration())
@@ -49,6 +50,6 @@ void PowerBlock::update()
     }
     catch (int errno)
     {
-        std::cout << "Error while updating the power switch instance. Error number: " << errno << std::endl;
+        LOG_ERROR << "Error while updating the power switch instance. Error number: " << errno;
     }
 }

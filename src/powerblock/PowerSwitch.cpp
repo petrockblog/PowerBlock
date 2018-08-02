@@ -21,6 +21,7 @@
  */
 
 #include <stdlib.h>
+#include <plog/Log.h>
 #include "PowerSwitch.h"
 #include "GPIO.h"
 
@@ -40,16 +41,14 @@ PowerSwitch::PowerSwitch(ShutdownActivated_e doShutdown) :
     }
 }
 
-PowerSwitch::~PowerSwitch()
-{ }
-
 void PowerSwitch::update()
 {
     static bool isShutdownInitiated = false;
 
-    if ((doShutdown == SHUTDOWN_ACTIVATED) && (getShutdownSignal() == SHUTDOWN_TRUE) && (isShutdownInitiated == false))
+    if ((doShutdown == SHUTDOWN_ACTIVATED) && (getShutdownSignal() == SHUTDOWN_TRUE) && (!isShutdownInitiated))
     {
-        system("/etc/powerblockswitchoff.sh");
+        LOG_INFO << "Shutdown signal observed. Executing shutdownscript " << PowerSwitch::SHUTDOWNSCRIPT << " and initiating shutdown.";
+        system(&SHUTDOWNSCRIPT.front());
         isShutdownInitiated = true;
     }
 }
@@ -68,7 +67,7 @@ void PowerSwitch::setPowerSignal(PowerState_e state)
 
 PowerSwitch::ShutdownSignal_e PowerSwitch::getShutdownSignal()
 {
-    ShutdownSignal_e signal = SHUTDOWN_FALSE;
+    ShutdownSignal_e signal;
     if (GPIO::getInstance().read(PIN_RPI_SHUTDOWN) == GPIO::LEVEL_LOW)
     {
         signal = SHUTDOWN_FALSE;
