@@ -37,14 +37,16 @@ PowerBlock::PowerBlock() :
     powerSwitch = std::move(tempPtr);
 }
 
-void PowerBlock::update()
+bool PowerBlock::update()
 {
     try
     {
-        powerSwitch->update();
+        bool isShutdownInitiated = powerSwitch->update();
+        return isShutdownInitiated;
     }
     catch (int errno)
     {
         LOG_ERROR << "Error while updating the power switch instance. Error number: " << errno;
+        return true;
     }
 }

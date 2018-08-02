@@ -34,7 +34,7 @@ public:
     PowerBlock();
     ~PowerBlock() = default;
 
-    void update();
+    bool update();
 
 private:
     std::unique_ptr<PowerSwitch> powerSwitch;

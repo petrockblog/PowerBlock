@@ -28,7 +28,7 @@
 const char* PowerSwitch::SHUTDOWNSCRIPT = "/etc/powerblockswitchoff.sh";
 
 PowerSwitch::PowerSwitch(ShutdownActivated_e doShutdown) :
-        doShutdown(SHUTDOWN_ACTIVATED)
+        doShutdown(SHUTDOWN_ACTIVATED), shutdownInitiated(false)
 {
     if (doShutdown == SHUTDOWN_ACTIVATED)
     {
@@ -43,16 +43,15 @@ PowerSwitch::PowerSwitch(ShutdownActivated_e doShutdown) :
     }
 }
 
-void PowerSwitch::update()
+bool PowerSwitch::update()
 {
-    static bool isShutdownInitiated = false;
-
-    if ((doShutdown == SHUTDOWN_ACTIVATED) && (getShutdownSignal() == SHUTDOWN_TRUE) && (!isShutdownInitiated))
+    if ((doShutdown == SHUTDOWN_ACTIVATED) && (getShutdownSignal() == SHUTDOWN_TRUE) && (!shutdownInitiated))
     {
         LOG_INFO << "Shutdown signal observed. Executing shutdownscript " << SHUTDOWNSCRIPT << " and initiating shutdown.";
         system(SHUTDOWNSCRIPT);
-        isShutdownInitiated = true;
+        shutdownInitiated = true;
     }
+    return shutdownInitiated;
 }
 
 void PowerSwitch::setPowerSignal(PowerState_e state)

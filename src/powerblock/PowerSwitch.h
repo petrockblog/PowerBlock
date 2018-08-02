@@ -71,12 +71,16 @@ public:
     /**
      * Read the signal level of the power switch and udpate internal state
      */
-    void update();
+    bool update();
+
+    bool isShutdownInitiated() { return shutdownInitiated; }
 
 private:
     static const char* SHUTDOWNSCRIPT;
     static const uint16_t PIN_RPI_STATUS = 17;     //!< BCM pin number of the status signal pin
     static const uint16_t PIN_RPI_SHUTDOWN = 18;   //!< BCM pin number of the shutdown signal pin
+
+    bool shutdownInitiated;
 
     ShutdownActivated_e doShutdown;  //!< State of the shutdown activation
 

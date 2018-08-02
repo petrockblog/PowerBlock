@@ -75,7 +75,11 @@ int main(int argc, char** argv)
     PowerBlock powerBlock;
     while (doRun)
     {
-        powerBlock.update();
+        const bool shouldShutdown = powerBlock.update();
+        if (shouldShutdown)
+        {
+            doRun = false;
+        }
         bcm2835_delay(500);
     }
 
