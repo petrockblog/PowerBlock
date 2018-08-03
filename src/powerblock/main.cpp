@@ -37,7 +37,6 @@ void sig_handler(int signo)
 {
     if ((signo == SIGINT) || (signo == SIGQUIT) || (signo == SIGABRT) || (signo == SIGTERM))
     {
-        LOG_INFO << "Releasing input devices.";
         doRun = 0;
     }
 }

@@ -25,7 +25,7 @@
 #include "PowerSwitch.h"
 #include "GPIO.h"
 
-const char* PowerSwitch::SHUTDOWNSCRIPT = "/etc/powerblockswitchoff.sh";
+const char* PowerSwitch::SHUTDOWNSCRIPT = "/etc/powerblockswitchoff.sh &";
 
 PowerSwitch::PowerSwitch(ShutdownActivated_e doShutdown) :
         doShutdown(SHUTDOWN_ACTIVATED), shutdownInitiated(false)

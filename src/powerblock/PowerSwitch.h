@@ -73,8 +73,6 @@ public:
      */
     bool update();
 
-    bool isShutdownInitiated() { return shutdownInitiated; }
-
 private:
     static const char* SHUTDOWNSCRIPT;
     static const uint16_t PIN_RPI_STATUS = 17;     //!< BCM pin number of the status signal pin
