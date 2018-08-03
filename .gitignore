@@ -179,5 +179,3 @@ local.properties
 .recommenders/
 
 # End of https://www.gitignore.io/api/macos,sublimetext,jetbrains,cmake,eclipse
-
-cmake-build-debug/**
