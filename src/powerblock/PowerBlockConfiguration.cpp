@@ -74,8 +74,8 @@ void PowerBlockConfiguration::initialize()
             shutdownPin = (uint16_t) root["shutdownpin"].asInt();
         }
 
-        std::cout << "[PowerBlock] Shutdown Pin is " << shutdownPin << std::endl;
-        std::cout << "[PowerBlock] Status Pin is " << statusPin << std::endl;
+        LOG_INFO << "Shutdown Pin is " << shutdownPin;
+        LOG_INFO << "Status Pin is " << statusPin;
     }
     catch (int errno)
     {
