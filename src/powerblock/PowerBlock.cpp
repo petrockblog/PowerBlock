@@ -32,7 +32,7 @@ PowerBlock::PowerBlock() :
 
     configuration->initialize();
 
-    powerSwitch = new PowerSwitch(switchMapping[configuration->getShutdownActivation()]);
+    powerSwitch = new PowerSwitch(switchMapping[configuration->getShutdownActivation()], configuration->getStatusPin(), configuration->getShutdownPin());
 }
 
 PowerBlock::~PowerBlock()

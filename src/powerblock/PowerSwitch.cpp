@@ -21,20 +21,28 @@
  */
 
 #include <stdlib.h>
+#include <stdint.h>
+
 #include "PowerSwitch.h"
 #include "GPIO.h"
+#include <iostream>
 
-PowerSwitch::PowerSwitch(ShutdownActivated_e doShutdown) :
-        doShutdown(SHUTDOWN_ACTIVATED)
+PowerSwitch::PowerSwitch(ShutdownActivated_e doShutdown, uint16_t _statusPin, uint16_t _shutdownPin) :
+        doShutdown(SHUTDOWN_ACTIVATED),
+        statusPin(17),
+        shutdownPin(18)
 {
+    statusPin = _statusPin;
+    shutdownPin = _shutdownPin;
+
     if (doShutdown == SHUTDOWN_ACTIVATED)
     {
         // RPI_STATUS signal
-        GPIO::getInstance().setDirection(PIN_RPI_STATUS, GPIO::DIRECTION_OUT);
+        GPIO::getInstance().setDirection(statusPin, GPIO::DIRECTION_OUT);
 
         // RPI_SHUTDOWN signal
-        GPIO::getInstance().setDirection(PIN_RPI_SHUTDOWN, GPIO::DIRECTION_IN);
-        GPIO::getInstance().setPullupMode(PIN_RPI_SHUTDOWN, GPIO::PULLDOWN_ENABLED);
+        GPIO::getInstance().setDirection(shutdownPin, GPIO::DIRECTION_IN);
+        GPIO::getInstance().setPullupMode(shutdownPin, GPIO::PULLDOWN_ENABLED);
 
         setPowerSignal(PowerSwitch::STATE_ON);
     }
@@ -58,18 +66,19 @@ void PowerSwitch::setPowerSignal(PowerState_e state)
 {
     if (state == STATE_OFF)
     {
-        GPIO::getInstance().write(PIN_RPI_STATUS, GPIO::LEVEL_LOW);
+        GPIO::getInstance().write(statusPin, GPIO::LEVEL_LOW);
     }
     else
     {
-        GPIO::getInstance().write(PIN_RPI_STATUS, GPIO::LEVEL_HIGH);
+        GPIO::getInstance().write(statusPin, GPIO::LEVEL_HIGH);
     }
 }
 
 PowerSwitch::ShutdownSignal_e PowerSwitch::getShutdownSignal()
 {
     ShutdownSignal_e signal = SHUTDOWN_FALSE;
-    if (GPIO::getInstance().read(PIN_RPI_SHUTDOWN) == GPIO::LEVEL_LOW)
+
+    if (GPIO::getInstance().read(shutdownPin) == GPIO::LEVEL_LOW)
     {
         signal = SHUTDOWN_FALSE;
     }

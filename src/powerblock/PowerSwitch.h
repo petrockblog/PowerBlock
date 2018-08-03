@@ -61,7 +61,7 @@ public:
      * Constructor
      * @param doShutdown Indicates whether the power switch should update its state (=true) or not (=false)
      */
-    explicit PowerSwitch(ShutdownActivated_e doShutdown);
+    explicit PowerSwitch(ShutdownActivated_e doShutdown, uint16_t statusPin, uint16_t shutdownPin);
 
     /**
      * Destructor
@@ -74,8 +74,8 @@ public:
     void update();
 
 private:
-    static const uint16_t PIN_RPI_STATUS = 17;     //!< BCM pin number of the status signal pin
-    static const uint16_t PIN_RPI_SHUTDOWN = 18;   //!< BCM pin number of the shutdown signal pin
+    uint16_t statusPin;     //!< BCM pin number of the status signal pin
+    uint16_t shutdownPin;   //!< BCM pin number of the shutdown signal pin
 
     ShutdownActivated_e doShutdown;  //!< State of the shutdown activation
 

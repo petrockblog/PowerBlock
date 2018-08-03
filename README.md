@@ -82,6 +82,8 @@ The parameters are explained in detail in the following:
  - ```powerswitch - activated```: Can be set to
      + ```true```: Activates the handling of the power switch signals of the PowerBlock.
      + ```false```: Deactivates the handling of the power switch signals of the PowerBlock.
+ - ```statuspin```: Raspberry BCM pin used for status signaling (default: 17) connects to S2 on PowerBlock
+ - ```shutdownpin```: Raspberry BCM pin used for shutdown signaling (default: 18) connects to S1 on Powerblock
 
 ## Shutdown Script
 
