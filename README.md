@@ -85,6 +85,10 @@ The parameters are explained in detail in the following:
  - ```statuspin```: Raspberry BCM pin used for status signaling (default: 17) connects to S2 on PowerBlock
  - ```shutdownpin```: Raspberry BCM pin used for shutdown signaling (default: 18) connects to S1 on Powerblock
 
+## Logging
+
+The PowerBlock driver logs certain events in the file `/var/log/powerblock.log`.
+
 ## Shutdown Script
 
 When the driver observes a shutdown signal from the PowerBlock, a shutdown Bash script is called. You can find and edit it at `/etc/powerblockswitchoff.sh`.
