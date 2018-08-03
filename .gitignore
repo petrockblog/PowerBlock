@@ -122,6 +122,7 @@ cmake_install.cmake
 install_manifest.txt
 compile_commands.json
 CTestTestfile.cmake
+cmake-build-debug/
 
 
 ### Eclipse ###
@@ -178,5 +179,3 @@ local.properties
 .recommenders/
 
 # End of https://www.gitignore.io/api/macos,sublimetext,jetbrains,cmake,eclipse
-
-cmake-build-debug/**

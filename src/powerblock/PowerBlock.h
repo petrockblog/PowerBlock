@@ -24,22 +24,21 @@
 #define POWERBLOCK_H
 
 #include <stdint.h>
+#include <memory>
 #include "PowerSwitch.h"
 #include "PowerBlockConfiguration.h"
 
 class PowerBlock
 {
 public:
-    static const uint8_t NUMGAMEPADS = 2;
-
     PowerBlock();
-    ~PowerBlock();
+    ~PowerBlock() = default;
 
-    void update();
+    bool update();
 
 private:
-    PowerSwitch* powerSwitch;
-    PowerBlockConfiguration* configuration;
+    std::unique_ptr<PowerSwitch> powerSwitch;
+    std::unique_ptr<PowerBlockConfiguration> configuration;
 };
 
 #endif  // POWERBLOCK_H

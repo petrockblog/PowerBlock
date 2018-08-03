@@ -66,16 +66,20 @@ public:
     /**
      * Destructor
      */
-    ~PowerSwitch();
+    ~PowerSwitch() = default;
 
     /**
      * Read the signal level of the power switch and udpate internal state
      */
-    void update();
+    bool update();
 
 private:
+    static const char* SHUTDOWNSCRIPT;
+
     uint16_t statusPin;     //!< BCM pin number of the status signal pin
     uint16_t shutdownPin;   //!< BCM pin number of the shutdown signal pin
+
+    bool shutdownInitiated;
 
     ShutdownActivated_e doShutdown;  //!< State of the shutdown activation
 

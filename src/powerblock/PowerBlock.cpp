@@ -20,11 +20,12 @@
  * in future versions.
  */
 
-#include "PowerBlock.h"
 #include <iostream>
+#include <plog/Log.h>
+#include "PowerBlock.h"
 
 PowerBlock::PowerBlock() :
-        configuration(new PowerBlockConfiguration())
+        configuration(std::move(new PowerBlockConfiguration()))
 {
     std::map<PowerBlockConfiguration::ShutdownType_e, PowerSwitch::ShutdownActivated_e> switchMapping;
     switchMapping[PowerBlockConfiguration::SHUTDOWN_ACTIVATED] = PowerSwitch::SHUTDOWN_ACTIVATED;
@@ -32,23 +33,20 @@ PowerBlock::PowerBlock() :
 
     configuration->initialize();
 
-    powerSwitch = new PowerSwitch(switchMapping[configuration->getShutdownActivation()], configuration->getStatusPin(), configuration->getShutdownPin());
+    std::unique_ptr<PowerSwitch> tempPtr(new PowerSwitch(switchMapping[configuration->getShutdownActivation()], configuration->getStatusPin(), configuration->getShutdownPin()));
+    powerSwitch = std::move(tempPtr);
 }
 
-PowerBlock::~PowerBlock()
-{
-    delete powerSwitch;
-    delete configuration;
-}
-
-void PowerBlock::update()
+bool PowerBlock::update()
 {
     try
     {
-        powerSwitch->update();
+        bool isShutdownInitiated = powerSwitch->update();
+        return isShutdownInitiated;
     }
     catch (int errno)
     {
-        std::cout << "Error while updating the power switch instance. Error number: " << errno << std::endl;
+        LOG_ERROR << "Error while updating the power switch instance. Error number: " << errno;
+        return true;
     }
 }

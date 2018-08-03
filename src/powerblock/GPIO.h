@@ -28,20 +28,20 @@
 class GPIO
 {
 public:
-    typedef enum
+    enum Level_e
     {
         LEVEL_LOW = 0, LEVEL_HIGH, LEVEL_UNAVAILABLE
-    } Level_e;
+    } ;
 
-    typedef enum
+    enum Direction_e
     {
         DIRECTION_IN = 0, DIRECTION_OUT
-    } Direction_e;
+    };
 
-    typedef enum
+    enum PullupMode_e
     {
         PULLUP_ENABLED = 0, PULLDOWN_ENABLED, PULLUPDOWN_DISABLED
-    } PullupMode_e;
+    };
 
     virtual ~GPIO();
 

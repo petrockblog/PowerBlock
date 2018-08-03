@@ -21,16 +21,20 @@
  */
 
 #include <stdlib.h>
+#include <iostream>
 #include <stdint.h>
+#include <plog/Log.h>
 
 #include "PowerSwitch.h"
 #include "GPIO.h"
-#include <iostream>
+
+const char* PowerSwitch::SHUTDOWNSCRIPT = "/etc/powerblockswitchoff.sh &";
 
 PowerSwitch::PowerSwitch(ShutdownActivated_e doShutdown, uint16_t _statusPin, uint16_t _shutdownPin) :
         doShutdown(SHUTDOWN_ACTIVATED),
         statusPin(17),
-        shutdownPin(18)
+        shutdownPin(18),
+        shutdownInitiated(false)
 {
     statusPin = _statusPin;
     shutdownPin = _shutdownPin;
@@ -48,36 +52,34 @@ PowerSwitch::PowerSwitch(ShutdownActivated_e doShutdown, uint16_t _statusPin, ui
     }
 }
 
-PowerSwitch::~PowerSwitch()
-{ }
-
-void PowerSwitch::update()
+bool PowerSwitch::update()
 {
-    static bool isShutdownInitiated = false;
-
-    if ((doShutdown == SHUTDOWN_ACTIVATED) && (getShutdownSignal() == SHUTDOWN_TRUE) && (isShutdownInitiated == false))
+    if ((doShutdown == SHUTDOWN_ACTIVATED) && (getShutdownSignal() == SHUTDOWN_TRUE) && (!shutdownInitiated))
     {
-        system("/etc/powerblockswitchoff.sh");
-        isShutdownInitiated = true;
+        LOG_INFO << "Shutdown signal observed. Executing shutdownscript " << SHUTDOWNSCRIPT << " and initiating shutdown.";
+        system(SHUTDOWNSCRIPT);
+        shutdownInitiated = true;
     }
+    return shutdownInitiated;
 }
 
 void PowerSwitch::setPowerSignal(PowerState_e state)
 {
     if (state == STATE_OFF)
     {
+        LOG_INFO << "Setting RPi status signal to LOW";
         GPIO::getInstance().write(statusPin, GPIO::LEVEL_LOW);
     }
     else
     {
+        LOG_INFO << "Setting RPi status signal to HIGH";
         GPIO::getInstance().write(statusPin, GPIO::LEVEL_HIGH);
     }
 }
 
 PowerSwitch::ShutdownSignal_e PowerSwitch::getShutdownSignal()
 {
-    ShutdownSignal_e signal = SHUTDOWN_FALSE;
-
+    ShutdownSignal_e signal;
     if (GPIO::getInstance().read(shutdownPin) == GPIO::LEVEL_LOW)
     {
         signal = SHUTDOWN_FALSE;

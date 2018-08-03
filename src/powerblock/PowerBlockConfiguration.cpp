@@ -22,7 +22,7 @@
 
 #include <iostream>
 #include <fstream>
-
+#include <plog/Log.h>
 #include "PowerBlockConfiguration.h"
 
 #include <stdint.h>
@@ -31,9 +31,6 @@ PowerBlockConfiguration::PowerBlockConfiguration() :
         doShutdown(SHUTDOWN_ACTIVATED),
         statusPin(17),
         shutdownPin(18)
-{ }
-
-PowerBlockConfiguration::~PowerBlockConfiguration()
 { }
 
 void PowerBlockConfiguration::initialize()
@@ -49,7 +46,7 @@ void PowerBlockConfiguration::initialize()
         bool parsingSuccessful = reader.parse(config_doc, root);
         if (!parsingSuccessful)
         {
-            std::cout << "[PowerBlock] Failed to parse configuration\n" << reader.getFormattedErrorMessages();
+            LOG_INFO << "Failed to parse configuration\n" << reader.getFormattedErrorMessages();
             return;
         }
 
@@ -57,12 +54,12 @@ void PowerBlockConfiguration::initialize()
         if (configboolean)
         {
             doShutdown = SHUTDOWN_ACTIVATED;
-            std::cout << "[PowerBlock] Shutdown is ACTIVATED" << std::endl;
+            LOG_INFO << "Shutdown is ACTIVATED";
         }
         else
         {
             doShutdown = SHUTDOWN_DEACTIVATED;
-            std::cout << "[PowerBlock] Shutdown is DEACTIVATED" << std::endl;
+            LOG_INFO << "Shutdown is DEACTIVATED";
         }
 
         if (root["statuspin"].isNull()) {
@@ -77,13 +74,13 @@ void PowerBlockConfiguration::initialize()
             shutdownPin = (uint16_t) root["shutdownpin"].asInt();
         }
 
-        std::cout << "[PowerBlock] Shutdown Pin is " << shutdownPin << std::endl;
-        std::cout << "[PowerBlock] Status Pin is " << statusPin << std::endl;
+        LOG_INFO << "Shutdown Pin is " << shutdownPin;
+        LOG_INFO << "Status Pin is " << statusPin;
     }
     catch (int errno)
     {
-        std::cout << "[PowerBlock] Error while initializing "
-                "PowerBlockConfiguration instance. Error number: " << errno << std::endl;
+        LOG_ERROR << "Error while initializing "
+                "PowerBlockConfiguration instance. Error number: " << errno;
     }
 }
 
