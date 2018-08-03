@@ -24,6 +24,7 @@
 #define POWERBLOCKCONFIGURATION_H
 
 #include <json/json.h>
+#include <stdint.h>
 
 class PowerBlockConfiguration
 {
@@ -38,9 +39,13 @@ public:
 
     void initialize();
     ShutdownType_e getShutdownActivation() const;
+    uint16_t getShutdownPin() const;
+    uint16_t getStatusPin() const;
 
 private:
     ShutdownType_e doShutdown;
+    uint16_t shutdownPin;
+    uint16_t statusPin;
 };
 
 #endif

@@ -25,7 +25,7 @@
 #include "PowerBlock.h"
 
 PowerBlock::PowerBlock() :
-        configuration(new PowerBlockConfiguration())
+        configuration(std::move(new PowerBlockConfiguration()))
 {
     std::map<PowerBlockConfiguration::ShutdownType_e, PowerSwitch::ShutdownActivated_e> switchMapping;
     switchMapping[PowerBlockConfiguration::SHUTDOWN_ACTIVATED] = PowerSwitch::SHUTDOWN_ACTIVATED;
@@ -33,7 +33,7 @@ PowerBlock::PowerBlock() :
 
     configuration->initialize();
 
-    std::unique_ptr<PowerSwitch> tempPtr(new PowerSwitch(switchMapping[configuration->getShutdownActivation()]));
+    std::unique_ptr<PowerSwitch> tempPtr(new PowerSwitch(switchMapping[configuration->getShutdownActivation()], configuration->getStatusPin(), configuration->getShutdownPin()));
     powerSwitch = std::move(tempPtr);
 }
 

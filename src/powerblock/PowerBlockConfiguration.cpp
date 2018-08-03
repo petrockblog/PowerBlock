@@ -25,8 +25,12 @@
 #include <plog/Log.h>
 #include "PowerBlockConfiguration.h"
 
+#include <stdint.h>
+
 PowerBlockConfiguration::PowerBlockConfiguration() :
-        doShutdown(SHUTDOWN_ACTIVATED)
+        doShutdown(SHUTDOWN_ACTIVATED),
+        statusPin(17),
+        shutdownPin(18)
 { }
 
 void PowerBlockConfiguration::initialize()
@@ -57,6 +61,21 @@ void PowerBlockConfiguration::initialize()
             doShutdown = SHUTDOWN_DEACTIVATED;
             LOG_INFO << "Shutdown is DEACTIVATED";
         }
+
+        if (root["statuspin"].isNull()) {
+            statusPin = 17;
+        } else {
+            statusPin = (uint16_t) root["statuspin"].asInt();
+        }
+
+        if (root["shutdownpin"].isNull()) {
+            shutdownPin = 18;
+        } else {
+            shutdownPin = (uint16_t) root["shutdownpin"].asInt();
+        }
+
+        std::cout << "[PowerBlock] Shutdown Pin is " << shutdownPin << std::endl;
+        std::cout << "[PowerBlock] Status Pin is " << statusPin << std::endl;
     }
     catch (int errno)
     {
@@ -68,4 +87,14 @@ void PowerBlockConfiguration::initialize()
 PowerBlockConfiguration::ShutdownType_e PowerBlockConfiguration::getShutdownActivation() const
 {
     return doShutdown;
+}
+
+uint16_t PowerBlockConfiguration::getShutdownPin() const
+{
+    return shutdownPin;
+}
+
+uint16_t PowerBlockConfiguration::getStatusPin() const
+{
+    return statusPin;
 }
