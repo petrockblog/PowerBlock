@@ -3,7 +3,7 @@ PowerBlock Driver
 
 This is the driver for the petrockblock.com [PowerBlock](https://blog.petrockblock.com/powerblock-raspberry-pi-power-switch/), which is an extension board for the Raspberry Pi (TM). The driver itself is denoted as _powerblock_ in the following. The driver provides a service for interacting with the power button signal as well as driving the optionally attached LED.
 
-The following description is intended to be used in combination with a Raspberry Pi and a **Linux-based operating system** running on the Raspberry Pi. There is a **driver for Windows 10 IoT Core** that can be found at https://github.com/petrockblog/PowerBlockWinIoT/releases.
+:exclamation: The following description is intended to be used in combination with a Raspberry Pi and a **Linux-based operating system** running on the Raspberry Pi. There is a **driver for Windows 10 IoT Core** that can be found at https://github.com/petrockblog/PowerBlockWinIoT/releases :exclamation:
 
 
 ## Quick Installation
