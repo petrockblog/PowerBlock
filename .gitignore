@@ -1,6 +1,8 @@
 
 # Created by https://www.gitignore.io/api/macos,sublimetext,jetbrains,cmake,eclipse
 
+doc/htmlDoc/
+
 ### macOS ###
 *.DS_Store
 .AppleDouble
