@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8.5)
+cmake_minimum_required(VERSION 2.8.10)
 
 project(PowerBlockService)
 
@@ -8,16 +8,20 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3")
 set(EXECUTABLE_NAME "powerblock")
 
 include_directories(src/powerblock)
-include_directories(src/lib/bcm2835-1.48/src)
 include_directories(src/lib/jsoncpp/include)
 include_directories(src/lib/plog/include)
 
 add_subdirectory(src/lib/jsoncpp)
-add_subdirectory(src/lib/bcm2835-1.48/src)
 add_subdirectory(src/powerblock)
+
+find_library(wiringPi_LIB wiringPi)
+if (NOT wiringPi_LIB)
+    message(FATAL_ERROR "Cannot find wiringPi library.")
+endif ()
 
 add_executable(${EXECUTABLE_NAME} "src/powerblock/main.cpp")
 target_link_libraries(${EXECUTABLE_NAME} powerblock-app)
+target_link_libraries(${EXECUTABLE_NAME} ${wiringPi_LIB})
 
 install(FILES ${CMAKE_BINARY_DIR}/${EXECUTABLE_NAME} DESTINATION /usr/bin
         PERMISSIONS OWNER_EXECUTE OWNER_WRITE OWNER_READ

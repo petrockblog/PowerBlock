@@ -26,7 +26,7 @@
 #include <chrono>
 #include <signal.h>
 #include <plog/Log.h>
-#include <bcm2835.h>
+#include <wiringPi.h>
 #include "PowerBlock.h"
 #include "version.h"
 
@@ -79,7 +79,7 @@ int main(int argc, char** argv)
         {
             doRun = false;
         }
-        bcm2835_delay(500);
+        delay(500);
     }
 
     LOG_INFO << "Exiting PowerBlock driver.";
