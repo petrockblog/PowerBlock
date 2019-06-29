@@ -1,3 +1,6 @@
 [submodule "src/lib/plog"]
 	path = src/lib/plog
 	url = https://github.com/SergiusTheBest/plog.git
+[submodule "src/lib/wiringPi"]
+	path = src/lib/wiringPi
+	url = git://git.drogon.net/wiringPi
