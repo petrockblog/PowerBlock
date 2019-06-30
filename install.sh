@@ -40,7 +40,7 @@ cmake .. || (c=$?; echo "Error while generating Makefiles"; (exit $c))
 
 # ensure that no old instance of the driver is running
 isOldServiceRunning=$(ps -ef | grep powerblock | grep -v grep)
-if [[ $isOldServiceRunning -eq 1 ]]; then
+if [[ ! -z $isOldServiceRunning ]]; then
     make uninstallservice
 fi 
 
