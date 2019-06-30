@@ -59,6 +59,11 @@ if [ -e "/.chroot_is_done" ]; then
   echo "Running tests"
   echo "Environment: $(uname -a)"
   # Commands used to run the tests
+  pushd /temp
+  wget https://project-downloads.drogon.net/wiringpi-latest.deb -O wiringpi-latest.deb
+  dpkg -i wiringpi-latest.deb
+  popd
+
   mkdir build && cd build
   cmake ..
   make

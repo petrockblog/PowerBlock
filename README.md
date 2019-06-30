@@ -28,8 +28,10 @@ To be able to successfully build _powerblock_ you need to have certain APT packa
 ```bash
 sudo apt-get update
 sudo apt-get upgrade -y
-sudo apt-get install -y cmake g++ doxygen build-essential
+sudo apt-get install -y cmake g++ doxygen build-essential wiringpi
 ```
+
+Important! Please make sure that you have at least version 2.52 of wiringPi installed. You can check that with the command 'gpio -v'. If you are unsure how to update the library, you can just use the install helper script 'install.sh'. See the section "Quick Installation" above.
 
 ## Downloading the Sources
 
