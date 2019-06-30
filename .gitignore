@@ -1,6 +1,8 @@
 
 # Created by https://www.gitignore.io/api/macos,sublimetext,jetbrains,cmake,eclipse
 
+doc/htmlDoc/
+
 ### macOS ###
 *.DS_Store
 .AppleDouble
@@ -75,6 +77,8 @@ GitHub.sublime-settings
 .idea/sqlDataSources.xml
 .idea/dynamic.xml
 .idea/uiDesigner.xml
+
+.idea/*
 
 # Gradle:
 .idea/gradle.xml
