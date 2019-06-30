@@ -7,10 +7,10 @@ if [[ "$(id -u)" -ne 0 ]]; then
 fi
 
 # ensure that all needed OS packages are installed
-apt-get install -y git cmake g++ doxygen build-essential || (c=$?; echo "Error during installation of APT packages"; (exit $c))
+apt-get install -y git cmake g++ doxygen build-essential dot || (c=$?; echo "Error during installation of APT packages"; (exit $c))
 
 pushd /temp
-wget https://project-downloads.drogon.net/wiringpi-latest.deb
+wget https://project-downloads.drogon.net/wiringpi-latest.deb -O wiringpi-latest.deb
 dpkg -i wiringpi-latest.deb
 popd
 
