@@ -3,4 +3,4 @@
 	url = https://github.com/SergiusTheBest/plog.git
 [submodule "src/lib/LIO"]
 	path = src/lib/LIO
-	url = git@github.com:petrockblog/LIO.git
+	url = https://github.com/petrockblog/LIO.git
