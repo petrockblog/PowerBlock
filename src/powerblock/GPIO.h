@@ -25,41 +25,36 @@
 
 #include "stdint.h"
 
-class GPIO
-{
-public:
-    enum Level_e
-    {
-        LEVEL_LOW = 0, LEVEL_HIGH, LEVEL_UNAVAILABLE
-    } ;
+class GPIO {
+ public:
+  enum Level_e {
+    LEVEL_LOW = 0, LEVEL_HIGH, LEVEL_UNAVAILABLE
+  };
 
-    enum Direction_e
-    {
-        DIRECTION_IN = 0, DIRECTION_OUT
-    };
+  enum Direction_e {
+    DIRECTION_IN = 0, DIRECTION_OUT
+  };
 
-    enum PullupMode_e
-    {
-        PULLUP_ENABLED = 0, PULLDOWN_ENABLED, PULLUPDOWN_DISABLED
-    };
+  enum PullupMode_e {
+    PULLUP_ENABLED = 0, PULLDOWN_ENABLED, PULLUPDOWN_DISABLED
+  };
 
-    virtual ~GPIO();
+  virtual ~GPIO();
 
-    static GPIO& getInstance()
-    {
-        static GPIO instance = GPIO();
-        return instance;
-    }
+  static GPIO &getInstance() {
+    static GPIO instance = GPIO();
+    return instance;
+  }
 
-    void setDirection(uint16_t pin, Direction_e direction);
-    void setPullupMode(uint16_t pin, PullupMode_e mode);
-    Level_e read(uint16_t pin);
-    void write(uint16_t pin, Level_e level);
+  void setDirection(uint16_t pin, Direction_e direction);
+  void setPullupMode(uint16_t pin, PullupMode_e mode);
+  Level_e read(uint16_t pin);
+  void write(uint16_t pin, Level_e level);
 
-private:
-    static bool isBCM2835Initialized;
+ private:
+  static bool isBCM2835Initialized;
 
-    GPIO();
+  GPIO();
 };
 
 #endif

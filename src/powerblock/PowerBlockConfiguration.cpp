@@ -28,73 +28,62 @@
 #include <stdint.h>
 
 PowerBlockConfiguration::PowerBlockConfiguration() :
-        doShutdown(SHUTDOWN_ACTIVATED),
-        statusPin(17),
-        shutdownPin(18)
-{ }
+    doShutdown(SHUTDOWN_ACTIVATED),
+    statusPin(17),
+    shutdownPin(18) {}
 
-void PowerBlockConfiguration::initialize()
-{
-    try
-    {
-        Json::Value root;
-        Json::Reader reader;
+void PowerBlockConfiguration::initialize() {
+  try {
+    Json::Value root;
+    Json::Reader reader;
 
-        std::ifstream t("/etc/powerblockconfig.cfg");
-        std::string config_doc((std::istreambuf_iterator<char>(t)), std::istreambuf_iterator<char>());
+    std::ifstream t("/etc/powerblockconfig.cfg");
+    std::string config_doc((std::istreambuf_iterator<char>(t)), std::istreambuf_iterator<char>());
 
-        bool parsingSuccessful = reader.parse(config_doc, root);
-        if (!parsingSuccessful)
-        {
-            LOG_INFO << "Failed to parse configuration\n" << reader.getFormattedErrorMessages();
-            return;
-        }
-
-        bool configboolean = root["powerswitch"]["activated"].asBool();
-        if (configboolean)
-        {
-            doShutdown = SHUTDOWN_ACTIVATED;
-            LOG_INFO << "Shutdown is ACTIVATED";
-        }
-        else
-        {
-            doShutdown = SHUTDOWN_DEACTIVATED;
-            LOG_INFO << "Shutdown is DEACTIVATED";
-        }
-
-        if (root["statuspin"].isNull()) {
-            statusPin = 17;
-        } else {
-            statusPin = (uint16_t) root["statuspin"].asInt();
-        }
-
-        if (root["shutdownpin"].isNull()) {
-            shutdownPin = 18;
-        } else {
-            shutdownPin = (uint16_t) root["shutdownpin"].asInt();
-        }
-
-        LOG_INFO << "Shutdown Pin is " << shutdownPin;
-        LOG_INFO << "Status Pin is " << statusPin;
+    bool parsingSuccessful = reader.parse(config_doc, root);
+    if (!parsingSuccessful) {
+      LOG_INFO << "Failed to parse configuration\n" << reader.getFormattedErrorMessages();
+      return;
     }
-    catch (int errno)
-    {
-        LOG_ERROR << "Error while initializing "
-                "PowerBlockConfiguration instance. Error number: " << errno;
+
+    bool configboolean = root["powerswitch"]["activated"].asBool();
+    if (configboolean) {
+      doShutdown = SHUTDOWN_ACTIVATED;
+      LOG_INFO << "Shutdown is ACTIVATED";
+    } else {
+      doShutdown = SHUTDOWN_DEACTIVATED;
+      LOG_INFO << "Shutdown is DEACTIVATED";
     }
+
+    if (root["statuspin"].isNull()) {
+      statusPin = 17;
+    } else {
+      statusPin = (uint16_t) root["statuspin"].asInt();
+    }
+
+    if (root["shutdownpin"].isNull()) {
+      shutdownPin = 18;
+    } else {
+      shutdownPin = (uint16_t) root["shutdownpin"].asInt();
+    }
+
+    LOG_INFO << "Shutdown Pin is " << shutdownPin;
+    LOG_INFO << "Status Pin is " << statusPin;
+  }
+  catch (int errno) {
+    LOG_ERROR << "Error while initializing "
+                 "PowerBlockConfiguration instance. Error number: " << errno;
+  }
 }
 
-PowerBlockConfiguration::ShutdownType_e PowerBlockConfiguration::getShutdownActivation() const
-{
-    return doShutdown;
+PowerBlockConfiguration::ShutdownType_e PowerBlockConfiguration::getShutdownActivation() const {
+  return doShutdown;
 }
 
-uint16_t PowerBlockConfiguration::getShutdownPin() const
-{
-    return shutdownPin;
+uint16_t PowerBlockConfiguration::getShutdownPin() const {
+  return shutdownPin;
 }
 
-uint16_t PowerBlockConfiguration::getStatusPin() const
-{
-    return statusPin;
+uint16_t PowerBlockConfiguration::getStatusPin() const {
+  return statusPin;
 }

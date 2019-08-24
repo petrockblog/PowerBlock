@@ -32,57 +32,47 @@
 static volatile sig_atomic_t doRun = 1;
 
 extern "C" {
-void sig_handler(int signo)
-{
-    if ((signo == SIGINT) || (signo == SIGQUIT) || (signo == SIGABRT) || (signo == SIGTERM))
-    {
-        doRun = 0;
-    }
+void sig_handler(int signo) {
+  if ((signo == SIGINT) || (signo == SIGQUIT) || (signo == SIGABRT) || (signo == SIGTERM)) {
+    doRun = 0;
+  }
 }
 }
 
-void register_signalhandlers()
-{
-    /* Register signal handlers  */
-    if (signal(SIGINT, sig_handler) == SIG_ERR)
-    {
-        LOG_ERROR << "Cannot catch SIGINT";
-    }
-    if (signal(SIGQUIT, sig_handler) == SIG_ERR)
-    {
-        LOG_ERROR << "Cannot catch SIGQUIT";
-    }
-    if (signal(SIGABRT, sig_handler) == SIG_ERR)
-    {
-        LOG_ERROR << "Cannot catch SIGABRT";
-    }
-    if (signal(SIGTERM, sig_handler) == SIG_ERR)
-    {
-        LOG_ERROR << "Cannot catch SIGTERM";
-    }
+void register_signalhandlers() {
+  /* Register signal handlers  */
+  if (signal(SIGINT, sig_handler) == SIG_ERR) {
+    LOG_ERROR << "Cannot catch SIGINT";
+  }
+  if (signal(SIGQUIT, sig_handler) == SIG_ERR) {
+    LOG_ERROR << "Cannot catch SIGQUIT";
+  }
+  if (signal(SIGABRT, sig_handler) == SIG_ERR) {
+    LOG_ERROR << "Cannot catch SIGABRT";
+  }
+  if (signal(SIGTERM, sig_handler) == SIG_ERR) {
+    LOG_ERROR << "Cannot catch SIGTERM";
+  }
 }
 
-int main(int argc, char** argv)
-{
+int main(int argc, char **argv) {
   using namespace std::literals::chrono_literals;
 
-    plog::init(plog::debug, "/var/log/powerblock.log", 1048576, 2);
+  plog::init(plog::debug, "/var/log/powerblock.log", 1048576, 2);
 
-    LOG_INFO << "Starting PowerBlock driver, version " << VERSION_MAJOR << "." << VERSION_MINOR << "." << VERSION_PATCH;
+  LOG_INFO << "Starting PowerBlock driver, version " << VERSION_MAJOR << "." << VERSION_MINOR << "." << VERSION_PATCH;
 
-    register_signalhandlers();
+  register_signalhandlers();
 
-    PowerBlock powerBlock;
-    while (doRun)
-    {
-        const bool shouldShutdown = powerBlock.update();
-        if (shouldShutdown)
-        {
-            doRun = false;
-        }
-        std::this_thread::sleep_for(1000ms);
+  PowerBlock powerBlock;
+  while (doRun) {
+    const bool shouldShutdown = powerBlock.update();
+    if (shouldShutdown) {
+      doRun = false;
     }
+    std::this_thread::sleep_for(1000ms);
+  }
 
-    LOG_INFO << "Exiting PowerBlock driver.";
-    return 0;
+  LOG_INFO << "Exiting PowerBlock driver.";
+  return 0;
 }

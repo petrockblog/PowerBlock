@@ -28,17 +28,16 @@
 #include "PowerSwitch.h"
 #include "PowerBlockConfiguration.h"
 
-class PowerBlock
-{
-public:
-    PowerBlock();
-    ~PowerBlock() = default;
+class PowerBlock {
+ public:
+  PowerBlock();
+  ~PowerBlock() = default;
 
-    bool update();
+  bool update();
 
-private:
-    std::unique_ptr<PowerSwitch> powerSwitch;
-    std::unique_ptr<PowerBlockConfiguration> configuration;
+ private:
+  std::unique_ptr<PowerSwitch> powerSwitch;
+  std::unique_ptr<PowerBlockConfiguration> configuration;
 };
 
 #endif  // POWERBLOCK_H

@@ -24,49 +24,37 @@
 
 #include <iostream>
 
-GPIO::GPIO()
-{
+GPIO::GPIO() {
 //  wiringPiSetupGpio();
 }
 
-GPIO::~GPIO()
-{
+GPIO::~GPIO() {
 #ifdef DEBUG
-    std::cout << "GPIO: Destructor called." << std::endl;
+  std::cout << "GPIO: Destructor called." << std::endl;
 #endif
 }
 
-void GPIO::setDirection(uint16_t pin, Direction_e direction)
-{
-    if (direction == DIRECTION_OUT)
-    {
+void GPIO::setDirection(uint16_t pin, Direction_e direction) {
+  if (direction == DIRECTION_OUT) {
 //      pinMode(pin, OUTPUT);
-    }
-    else if (direction == DIRECTION_IN)
-    {
+  } else if (direction == DIRECTION_IN) {
 //      pinMode(pin, INPUT);
-    }
+  }
 }
 
-void GPIO::setPullupMode(uint16_t pin, PullupMode_e mode)
-{
-    if (mode == PULLUP_ENABLED)
-    {
+void GPIO::setPullupMode(uint16_t pin, PullupMode_e mode) {
+  if (mode == PULLUP_ENABLED) {
 //      pullUpDnControl(pin, PUD_UP);
-    }
-    else
-    {
+  } else {
 //      pullUpDnControl(pin, PUD_OFF);
-    }
+  }
 }
 
-GPIO::Level_e GPIO::read(uint16_t pin)
-{
+GPIO::Level_e GPIO::read(uint16_t pin) {
 //  return (digitalRead((uint8_t) pin) == HIGH) ? LEVEL_HIGH : LEVEL_LOW;
   return LEVEL_LOW;
 }
 
-void GPIO::write(uint16_t pin, GPIO::Level_e level)
-{
+void GPIO::write(uint16_t pin, GPIO::Level_e level) {
 //  digitalWrite((uint8_t) pin, level == LEVEL_LOW ? LOW : HIGH);
 }

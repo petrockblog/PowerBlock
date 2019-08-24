@@ -25,28 +25,26 @@
 #include "PowerBlock.h"
 
 PowerBlock::PowerBlock() :
-        configuration(std::move(new PowerBlockConfiguration()))
-{
-    std::map<PowerBlockConfiguration::ShutdownType_e, PowerSwitch::ShutdownActivated_e> switchMapping;
-    switchMapping[PowerBlockConfiguration::SHUTDOWN_ACTIVATED] = PowerSwitch::SHUTDOWN_ACTIVATED;
-    switchMapping[PowerBlockConfiguration::SHUTDOWN_DEACTIVATED] = PowerSwitch::SHUTDOWN_DEACTIVATED;
+    configuration(std::move(new PowerBlockConfiguration())) {
+  std::map<PowerBlockConfiguration::ShutdownType_e, PowerSwitch::ShutdownActivated_e> switchMapping;
+  switchMapping[PowerBlockConfiguration::SHUTDOWN_ACTIVATED] = PowerSwitch::SHUTDOWN_ACTIVATED;
+  switchMapping[PowerBlockConfiguration::SHUTDOWN_DEACTIVATED] = PowerSwitch::SHUTDOWN_DEACTIVATED;
 
-    configuration->initialize();
+  configuration->initialize();
 
-    std::unique_ptr<PowerSwitch> tempPtr(new PowerSwitch(switchMapping[configuration->getShutdownActivation()], configuration->getStatusPin(), configuration->getShutdownPin()));
-    powerSwitch = std::move(tempPtr);
+  std::unique_ptr<PowerSwitch> tempPtr(new PowerSwitch(switchMapping[configuration->getShutdownActivation()],
+                                                       configuration->getStatusPin(),
+                                                       configuration->getShutdownPin()));
+  powerSwitch = std::move(tempPtr);
 }
 
-bool PowerBlock::update()
-{
-    try
-    {
-        bool isShutdownInitiated = powerSwitch->update();
-        return isShutdownInitiated;
-    }
-    catch (int errno)
-    {
-        LOG_ERROR << "Error while updating the power switch instance. Error number: " << errno;
-        return true;
-    }
+bool PowerBlock::update() {
+  try {
+    bool isShutdownInitiated = powerSwitch->update();
+    return isShutdownInitiated;
+  }
+  catch (int errno) {
+    LOG_ERROR << "Error while updating the power switch instance. Error number: " << errno;
+    return true;
+  }
 }
