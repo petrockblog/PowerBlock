@@ -45,7 +45,6 @@ void GPIO::setDirection(uint16_t pin, Direction_e direction)
     }
     else if (direction == DIRECTION_IN)
     {
-//        bcm2835_gpio_fsel((uint8_t) pin, BCM2835_GPIO_FSEL_INPT);
       pinMode(pin, INPUT);
     }
 }
