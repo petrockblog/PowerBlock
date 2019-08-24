@@ -80,9 +80,9 @@ int main(int argc, char** argv)
         {
             doRun = false;
         }
-        std::this_thread::sleep_for(500ms);
+        std::this_thread::sleep_for(1000ms);
     }
 
-//    LOG_INFO << "Exiting PowerBlock driver.";
+    LOG_INFO << "Exiting PowerBlock driver.";
     return 0;
 }

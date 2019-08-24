@@ -25,6 +25,10 @@
 
 #include <stdint.h>
 
+#include "OutputPort.h"
+#include "InputPort.h"
+
+
 /**
  * This class implements the functionality of a physical power switch.
  */
@@ -76,12 +80,12 @@ public:
 private:
     static const char* SHUTDOWNSCRIPT;
 
-    uint16_t statusPin;     //!< BCM pin number of the status signal pin
-    uint16_t shutdownPin;   //!< BCM pin number of the shutdown signal pin
-
-    bool shutdownInitiated;
-
-    ShutdownActivated_e doShutdown;  //!< State of the shutdown activation
+    uint16_t statusPin_;     //!< BCM pin number of the status signal pin
+    uint16_t shutdownPin_;   //!< BCM pin number of the shutdown signal pin
+    bool shutdownInitiated_;
+    ShutdownActivated_e doShutdown_;  //!< State of the shutdown activation
+    std::shared_ptr<OutputPort> statusPin_port_;
+    std::shared_ptr<InputPort> shutdownPin_port_;
 
     /**
      * Sets the given level of the shutdown signal
