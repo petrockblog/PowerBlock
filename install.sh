@@ -7,12 +7,7 @@ if [[ "$(id -u)" -ne 0 ]]; then
 fi
 
 # ensure that all needed OS packages are installed
-apt-get install -y git cmake g++ doxygen build-essential dot || (c=$?; echo "Error during installation of APT packages"; (exit $c))
-
-pushd /temp
-wget https://project-downloads.drogon.net/wiringpi-latest.deb -O wiringpi-latest.deb
-dpkg -i wiringpi-latest.deb
-popd
+apt-get install -y git cmake g++ doxygen build-essential graphviz || (c=$?; echo "Error during installation of APT packages"; (exit $c))
 
 # ensure that we are within the PowerBlock directory
 currentDirectory=${PWD##*/}
