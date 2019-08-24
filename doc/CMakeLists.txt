@@ -1,4 +1,4 @@
-option(BUILD_DOCUMENTATION "Create and install the HTML based API documentation (requires Doxygen)" ON)
+option(BUILD_DOCUMENTATION "Create and install the HTML based API documentation (requires Doxygen)" OFF)
 
 IF (BUILD_DOCUMENTATION)
     FIND_PACKAGE(Doxygen)
@@ -12,7 +12,6 @@ IF (BUILD_DOCUMENTATION)
     SET(doxy_output_root ${CMAKE_CURRENT_SOURCE_DIR}/htmlDoc/) # Pasted into Doxyfile.in
     SET(doxy_input ${PROJECT_SOURCE_DIR}/src/powerblock) # Pasted into Doxyfile.in
     SET(doxy_extra_files "") # Pasted into Doxyfile.in
-#    SET(doxy_extra_files ${CMAKE_CURRENT_SOURCE_DIR}/mainpage.dox) # Pasted into Doxyfile.in
 
     CONFIGURE_FILE(${doxyfile_in} ${doxyfile} @ONLY)
 
@@ -31,5 +30,4 @@ IF (BUILD_DOCUMENTATION)
 
     ADD_CUSTOM_TARGET(doc ALL DEPENDS ${doxy_html_index_file})
 
-#    INSTALL(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/html DESTINATION share/doc)
 ENDIF ()

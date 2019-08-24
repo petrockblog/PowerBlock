@@ -26,7 +26,6 @@
 #include <chrono>
 #include <signal.h>
 #include <plog/Log.h>
-#include <wiringPi.h>
 #include "PowerBlock.h"
 #include "version.h"
 
@@ -65,6 +64,8 @@ void register_signalhandlers()
 
 int main(int argc, char** argv)
 {
+  using namespace std::literals::chrono_literals;
+
     plog::init(plog::debug, "/var/log/powerblock.log", 1048576, 2);
 
     LOG_INFO << "Starting PowerBlock driver, version " << VERSION_MAJOR << "." << VERSION_MINOR << "." << VERSION_PATCH;
@@ -79,9 +80,9 @@ int main(int argc, char** argv)
         {
             doRun = false;
         }
-        delay(500);
+        std::this_thread::sleep_for(500ms);
     }
 
-    LOG_INFO << "Exiting PowerBlock driver.";
+//    LOG_INFO << "Exiting PowerBlock driver.";
     return 0;
 }

@@ -23,7 +23,7 @@
 #ifndef POWERBLOCKCONFIGURATION_H
 #define POWERBLOCKCONFIGURATION_H
 
-#include <json/json.h>
+#include "json/json.h"
 #include <stdint.h>
 
 class PowerBlockConfiguration
