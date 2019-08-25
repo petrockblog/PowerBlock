@@ -1,14 +1,19 @@
 PowerBlock Driver
 =================
 
-This is the driver for the petrockblock.com [PowerBlock](https://blog.petrockblock.com/powerblock-raspberry-pi-power-switch/), which is an extension board for the Raspberry Pi (TM). The driver itself is denoted as _powerblock_ in the following. The driver provides a service for interacting with the power button signal as well as driving the optionally attached LED.
+This is the driver for the petrockblock.com [PowerBlock](https://blog.petrockblock.com/powerblock-raspberry-pi-power-switch/), 
+which is an extension board for the Raspberry Pi (TM). The driver itself is denoted as _powerblock_ in the following. The 
+driver provides a service for interacting with the power button signal as well as driving the optionally attached LED.
 
-:exclamation: The following description is intended to be used in combination with a Raspberry Pi and a **Linux-based operating system** running on the Raspberry Pi. There is a **driver for Windows 10 IoT Core** that can be found at https://github.com/petrockblog/PowerBlockWinIoT/releases :exclamation:
+:exclamation: The following description is intended to be used in combination with a Raspberry Pi and a 
+**Linux-based operating system** running on the Raspberry Pi. There is a **driver for Windows 10 IoT Core** that can be 
+found at https://github.com/petrockblog/PowerBlockWinIoT/releases :exclamation:
 
 
 ## Quick Installation
 
-There comes an installation script with this reposity that does all the steps described below: `install.sh` This script compiles the driver, installs the binary and configuration files, and installs the PowerBlock service. 
+There comes an installation script with this reposity that does all the steps described below: `install.sh` This script 
+compiles the driver, installs the binary and configuration files, and installs the PowerBlock service. 
 
 To run the quick installation, you just need to call this one line from the Raspbian console
 
@@ -21,21 +26,23 @@ To uninstall the service you can simply call `sudo ./uninstall.sh` from within t
 
 ## Prerequisites
 
-If you did not follow the quick installation instructions above, you can manually execute the steps of the installation script. These are described in the following.
+If you did not follow the quick installation instructions above, you can manually execute the steps of the installation 
+script. These are described in the following.
 
-To be able to successfully build _powerblock_ you need to have certain APT packages installed. You can make sure that you have the latest version of those packages with these commands:
+To be able to successfully build _powerblock_ you need to have certain APT packages installed. You can make sure that 
+you have the latest version of those packages with these commands:
 
 ```bash
 sudo apt-get update
 sudo apt-get upgrade -y
-sudo apt-get install -y cmake g++ doxygen build-essential wiringpi
+sudo apt-get install -y cmake g++ doxygen build-essential graphviz
 ```
 
-Important! Please make sure that you have at least version 2.52 of wiringPi installed. You can check that with the command 'gpio -v'. If you are unsure how to update the library, you can just use the install helper script 'install.sh'. See the section "Quick Installation" above.
 
 ## Downloading the Sources
 
-If you would like to download the latest version of _powerblock_ from [its Github repository](https://github.com/petrockblog/PowerBlock), you can use this command:
+If you would like to download the latest version of _powerblock_ from 
+[its Github repository](https://github.com/petrockblog/PowerBlock), you can use this command:
 ```bash
 git clone --recursive https://github.com/petrockblog/PowerBlock.git
 ```
@@ -78,7 +85,8 @@ sudo make uninstall
 
 ## Configuration
 
-The configuration file of _powerblock_ is located at ```/etc/powerblockconfig.cfg```. It uses JSON syntax for setting the the values of its configuration parameters.
+The configuration file of _powerblock_ is located at ```/etc/powerblockconfig.cfg```. It uses JSON syntax for setting 
+the the values of its configuration parameters.
 
 The parameters are explained in detail in the following:
 
@@ -94,7 +102,8 @@ The PowerBlock driver logs certain events in the file `/var/log/powerblock.log`.
 
 ## Shutdown Script
 
-When the driver observes a shutdown signal from the PowerBlock, a shutdown Bash script is called. You can find and edit it at `/etc/powerblockswitchoff.sh`.
+When the driver observes a shutdown signal from the PowerBlock, a shutdown Bash script is called. You can find and edit 
+it at `/etc/powerblockswitchoff.sh`.
 
 <br><br>
 __Have fun!__
