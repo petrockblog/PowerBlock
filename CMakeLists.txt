@@ -12,6 +12,7 @@ install(FILES ${CMAKE_BINARY_DIR}/../supplementary/powerblockconfig.cfg DESTINAT
         PERMISSIONS OWNER_EXECUTE OWNER_WRITE OWNER_READ
         GROUP_READ
         )
+
 install(FILES ${CMAKE_BINARY_DIR}/../supplementary/powerblockswitchoff.sh DESTINATION /etc
         PERMISSIONS OWNER_EXECUTE OWNER_WRITE OWNER_READ
         GROUP_EXECUTE GROUP_READ
