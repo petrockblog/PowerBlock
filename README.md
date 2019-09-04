@@ -35,7 +35,7 @@ you have the latest version of those packages with these commands:
 ```bash
 sudo apt-get update
 sudo apt-get upgrade -y
-sudo apt-get install -y cmake g++ doxygen build-essential graphviz
+sudo apt-get install -y cmake g++ doxygen build-essential graphviz libc6 libc6-dev
 ```
 
 
