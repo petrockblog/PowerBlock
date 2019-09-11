@@ -28,6 +28,9 @@
 
 class PowerBlockConfiguration {
  public:
+  static const int kSTATUS_PIN = 17;
+  static const int kSHUTDOWN_PIN = 18;
+
   enum ShutdownType_e {
     SHUTDOWN_DEACTIVATED = 0, SHUTDOWN_ACTIVATED
   };

@@ -29,8 +29,8 @@
 
 PowerBlockConfiguration::PowerBlockConfiguration() :
     doShutdown(SHUTDOWN_ACTIVATED),
-    statusPin(17),
-    shutdownPin(18) {}
+    statusPin(kSTATUS_PIN),
+    shutdownPin(kSHUTDOWN_PIN) {}
 
 void PowerBlockConfiguration::initialize() {
   try {
@@ -56,13 +56,13 @@ void PowerBlockConfiguration::initialize() {
     }
 
     if (root["statuspin"].isNull()) {
-      statusPin = 17;
+      statusPin = kSTATUS_PIN;
     } else {
       statusPin = (uint16_t) root["statuspin"].asInt();
     }
 
     if (root["shutdownpin"].isNull()) {
-      shutdownPin = 18;
+      shutdownPin = kSHUTDOWN_PIN;
     } else {
       shutdownPin = (uint16_t) root["shutdownpin"].asInt();
     }

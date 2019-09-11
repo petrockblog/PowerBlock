@@ -1,7 +1,6 @@
 add_library(powerblock-app STATIC
         PowerBlock.cpp
         PowerSwitch.cpp
-        GPIO.cpp
         PowerBlockConfiguration.cpp
         )
 

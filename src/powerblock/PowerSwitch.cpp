@@ -26,7 +26,6 @@
 #include <plog/Log.h>
 
 #include "PowerSwitch.h"
-#include "GPIO.h"
 
 const char *PowerSwitch::SHUTDOWNSCRIPT = "/etc/powerblockswitchoff.sh &";
 
@@ -41,14 +40,6 @@ PowerSwitch::PowerSwitch(ShutdownActivated_e doShutdown, uint16_t _statusPin, ui
   if (doShutdown == SHUTDOWN_ACTIVATED) {
     statusPin_port_ = std::make_shared<OutputPort>(statusPin_);
     shutdownPin_port_ = std::make_shared<InputPort>(shutdownPin_);
-
-//    // RPI_STATUS signal
-//    GPIO::getInstance().setDirection(statusPin_, GPIO::DIRECTION_OUT);
-//
-//    // RPI_SHUTDOWN signal
-//    GPIO::getInstance().setDirection(shutdownPin_, GPIO::DIRECTION_IN);
-//    GPIO::getInstance().setPullupMode(shutdownPin_, GPIO::PULLDOWN_ENABLED);
-
     setPowerSignal(PowerSwitch::STATE_ON);
   }
 }
@@ -65,18 +56,15 @@ bool PowerSwitch::update() {
 void PowerSwitch::setPowerSignal(PowerState_e state) {
   if (state == STATE_OFF) {
     LOG_INFO << "Setting RPi status signal to LOW";
-//    GPIO::getInstance().write(statusPin_, GPIO::LEVEL_LOW);
     statusPin_port_->Write(false);
   } else {
     LOG_INFO << "Setting RPi status signal to HIGH";
-//    GPIO::getInstance().write(statusPin_, GPIO::LEVEL_HIGH);
     statusPin_port_->Write(true);
   }
 }
 
 PowerSwitch::ShutdownSignal_e PowerSwitch::getShutdownSignal() {
   ShutdownSignal_e signal;
-//  if (GPIO::getInstance().read(shutdownPin_) == GPIO::LEVEL_LOW) {
   if (!shutdownPin_port_->Read()) {
     signal = SHUTDOWN_FALSE;
   } else {
