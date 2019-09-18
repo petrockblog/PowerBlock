@@ -22,6 +22,4 @@ uninstallService
 uninstallFiles
 
 # check that the service is not running anymore
-ps -ef | grep powerblock | grep -v grep
-[ $?  -eq "0" ] && echo "[ERROR] Could not remove the PowerBlock service" || echo "[SUCCESS] The PowerBlock service was successfully removed."
-
+echo "[SUCCESS] The PowerBlock service was successfully removed. Please reboot to finish the uninstallation."
