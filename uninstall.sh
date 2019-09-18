@@ -6,26 +6,20 @@ if [[ "$(id -u)" -ne 0 ]]; then
     exit 1
 fi
 
-# ensure that all needed OS packages are installed
-apt-get install -y git cmake g++-4.9 doxygen || (c=$?; echo "Error during installation of APT packages"; (exit $c))
+function uninstallFiles() {
+    rm /usr/bin/powerblockservice
+    rm /etc/powerblockconfig.cfg
+    rm /etc/powerblockswitchoff.sh
+}
 
-# make sure that the submodule data is available
-git submodule update --init --recursive
+function uninstallService() {
+    update-rc.d powerblock remove
+    rm /etc/init.d/powerblock
+    echo "PowerBlock service uninstalled."
+}
 
-if [[ -d build ]]; then
-    rm -rf build
-fi
-
-# create a folder that will contain all build artefacts and change into that folder
-mkdir build || (c=$?; echo "Error while creating build folder"; (exit $c))
-pushd build || (c=$?; echo "Error while changing into the folder build"; (exit $c))
-
-# create Makefiles
-cmake .. || (c=$?; echo "Error while generating Makefiles"; (exit $c))
-
-# ensure that no old instance of the driver is running and installed
-make uninstallservice
-popd
+uninstallService
+uninstallFiles
 
 # check that the service is not running anymore
 ps -ef | grep powerblock | grep -v grep
