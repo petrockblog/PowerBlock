@@ -28,13 +28,13 @@ function prepare() {
 }
 
 function installFiles() {
-    install --mode 0755 scripts/powerblock /usr/bin/powerblockservice
+    install --mode 0755 scripts/powerblockservice /usr/bin/powerblockservice
     install --mode 0755 supplementary/powerblockconfig.cfg /etc/powerblockconfig.cfg
     install --mode 0755 supplementary/powerblockswitchoff.sh /etc/powerblockswitchoff.sh
 }
 
 function installService() {
-    install -m 0755 powerblock /etc/init.d
+    install -m 0755 scripts/powerblock /etc/init.d
     update-rc.d powerblock defaults
     /etc/init.d/powerblock start
     echo "Installation of PowerBlock service done."
