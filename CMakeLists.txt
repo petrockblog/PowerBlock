@@ -29,7 +29,6 @@ add_custom_target(installservice
         )
 
 add_custom_target(uninstallservice
-        COMMAND /etc/init.d/powerblock stop
         COMMAND update-rc.d powerblock remove
         COMMAND rm /etc/init.d/powerblock
         WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/../scripts
