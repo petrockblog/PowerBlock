@@ -51,10 +51,10 @@ sleep 3
 
 # sanity checks
 # check that the binary is installed
-if [[ ! -f /usr/bin/powerblock ]]; then
-    echo "[ERROR] The PowerBlock driver binary is not installed"
+if [[ ! -f /usr/bin/powerblockservice ]]; then
+    echo "[ERROR] The PowerBlock driver executable is not installed"
 else
-    echo "[SUCCESS] The PowerBlock driver binary is installed"
+    echo "[SUCCESS] The PowerBlock driver executable is installed"
 fi
 
 # check that the service is running
