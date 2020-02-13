@@ -56,7 +56,7 @@ First, use SSH to log into the running LibreELEC instance. This can be done, e.g
 Being logged in, the actual driver installation is done with this command: 
 
 ```bash
-wget -O - https://raw.githubusercontent.com/petrockblog/PowerBlock/master/install_libreelec.sh | sudo bash
+wget -O - https://raw.githubusercontent.com/petrockblog/PowerBlock/master/install_libreelec.sh | bash
 ```
 
 And that's it!
