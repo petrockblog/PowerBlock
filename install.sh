@@ -16,7 +16,7 @@ function prepare() {
         if [[ -d PowerBlock ]]; then
             rm -rf PowerBlock
         fi
-        git clone --recursive --depth=1 git://github.com/petrockblog/PowerBlock
+        git clone --recursive --depth=1 https://github.com/petrockblog/PowerBlock
         cd PowerBlock
     fi
 
