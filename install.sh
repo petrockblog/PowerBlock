@@ -20,9 +20,14 @@ function prepare() {
         if [[ -d PowerBlock ]]; then
             rm -rf PowerBlock
         fi
+
+        if [[ -f petrockblock_powerblock_master.zip ]]; then
+            rm -f petrockblock_powerblock_master.zip
+        fi
+
         # Download and extract the repository
-        wget https://github.com/petrockblog/PowerBlock/archive/master.zip
-        unzip master.zip
+        wget -O petrockblock_powerblock_master.zip https://github.com/petrockblog/PowerBlock/archive/master.zip
+        unzip petrockblock_powerblock_master.zip
         mv PowerBlock-master PowerBlock
         cd PowerBlock || exit
     fi
