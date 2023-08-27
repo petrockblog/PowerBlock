@@ -28,7 +28,7 @@ function prepare() {
     fi
 
     # ensure that no old instance of the driver is running
-    isOldServiceRunning=$(pgrep powerblock)
+    isOldServiceRunning=$(pgrep -f powerblock)
     if [[ -n $isOldServiceRunning ]]; then
         make uninstallservice
     fi
@@ -64,7 +64,7 @@ else
 fi
 
 # check that the service is running
-isServiceRunning=$(pgrep powerblock)
+isServiceRunning=$(pgrep -f powerblock)
 if [[ -n $isServiceRunning ]]; then
     echo "[SUCCESS] The PowerBlock service is running"
 else
