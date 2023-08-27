@@ -16,7 +16,7 @@ function prepare() {
         if [[ -d PowerBlock ]]; then
             rm -rf PowerBlock
         fi
-        sudo -u $SUDO_USER git clone --recursive --depth=1 git://github.com/petrockblog/PowerBlock
+        git clone --recursive --depth=1 git://github.com/petrockblog/PowerBlock
         cd PowerBlock
     fi
 
