@@ -46,6 +46,22 @@ The PowerBlock driver logs certain events in the file `/var/log/syslog`.
 When the driver observes a shutdown signal from the PowerBlock, a shutdown Bash script is called. You can find and edit 
 it at `/etc/powerblockswitchoff.sh`.
 
+
+## LibreELEC Installation
+
+This section is about installing the PowerBlock service on LibreELEC. In the following, it is assumed that we install the driver on a fresh, unmodified LibreELEC installation.
+
+First, use SSH to log into the running LibreELEC instance. This can be done, e.g., with the command `ssh root@IP_OF_LIBREELEC`. The default password is `libreelec`. 
+
+Being logged in, the actual driver installation is done with this command: 
+
+```bash
+wget -O - https://raw.githubusercontent.com/petrockblog/PowerBlock/master/install_libreelec.sh | bash
+```
+
+And that's it!
+
+
 <br><br>
 __Have fun!__
 
