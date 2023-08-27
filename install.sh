@@ -28,6 +28,7 @@ function prepare() {
         # Download and extract the repository
         wget -O petrockblock_powerblock_master.zip https://github.com/petrockblog/PowerBlock/archive/master.zip
         unzip petrockblock_powerblock_master.zip
+        rm petrockblock_powerblock_master.zip
         mv PowerBlock-master PowerBlock
         cd PowerBlock || exit
     fi
