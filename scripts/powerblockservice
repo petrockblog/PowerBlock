@@ -14,6 +14,13 @@ STATE_OFF="0"
 CONFIGFILE=/etc/powerblockconfig.cfg
 SHUTDOWNSCRIPT=/etc/powerblockswitchoff.sh
 
+# Determine Raspberry Pi GPIO access chip
+# chip=4 for RPi5, chip=0 for older models
+if gpiodetect | grep -q "pinctrl-rp"; then
+  chip=4
+else
+  chip=0
+fi
 
 # ------------------- FUNCTION DEFINITIONS ---------------
 
@@ -77,13 +84,15 @@ setDirectionInput() {
 # Parameter $1: pin number
 # Parameter $2: output value. Can be 0 or 1
 setPinValue() {
-  echo $2 > $BASE_GPIO_PATH/gpio$1/value
+#  echo $2 > $BASE_GPIO_PATH/gpio$1/value
+  gpioset $chip $1=$2
 }
 
 # Returns the current pin value
 # Parameter $1: pin number to be read from
 getPinValue() {
-  echo $(cat $BASE_GPIO_PATH/gpio$1/value)
+#  echo $(cat $BASE_GPIO_PATH/gpio$1/value)
+  echo $(gpioget $chip $1)
 }
 
 doShutdown() {
