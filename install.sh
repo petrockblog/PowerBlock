@@ -53,11 +53,31 @@ function installService() {
     echo "Installation of PowerBlock service done."
 }
 
+function updateBootConfig() {
+    FILE="/boot/config.txt"
+    LINE_TO_ENSURE="usb_max_current_enable=1"
+    LINE_TO_REPLACE="usb_max_current_enable=0"
+
+    # Check if the line exists and do nothing if it does
+    if grep -Fxq "$LINE_TO_ENSURE" "$FILE"; then
+        echo "/boot/config.txt is up-to-date, no action taken."
+    elif grep -Fxq "$LINE_TO_REPLACE" "$FILE"; then
+        # If the line with usb_max_current_enable=0 exists, replace it
+        sed -i "s/^$LINE_TO_REPLACE/$LINE_TO_ENSURE/" "$FILE"
+        echo "/boot/config.txt updated."
+    else
+        # If the line does not exist, append it
+        echo "$LINE_TO_ENSURE" | sudo tee -a "$FILE"
+        echo "/boot/config.txt updated."
+    fi
+}
+
 # ----------------------------------
 
 prepare
 installFiles
 installService
+updateBootConfig
 
 sleep 3
 
