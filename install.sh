@@ -8,7 +8,7 @@ function prepare() {
     fi
 
     # ensure that all needed OS packages are installed
-    apt-get install -y wget unzip || (
+    apt-get install -y gpiod wget unzip || (
         c=$?
         echo "Error during installation of APT packages"
         (exit $c)
