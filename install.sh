@@ -36,7 +36,7 @@ function prepare() {
     # ensure that no old instance of the driver is running
     isOldServiceRunning=$(pgrep -f powerblock)
     if [[ -n $isOldServiceRunning ]]; then
-        make uninstallservice
+        source uninstall.sh
     fi
 }
 
