@@ -125,6 +125,8 @@ write_log()
 
 checkForRoot
 
+echo "Starting PowerBlock driver, version $VERSION_MAJOR.$VERSION_MINOR.$VERSION_PATCH" | write_log
+
 # Check for gpiodetect availability
 if command -v gpiodetect >/dev/null 2>&1; then
   GPIO_TOOLS_AVAILABLE=true
@@ -147,8 +149,6 @@ IS_ACTIVATED=$(iniget $CONFIGFILE powerblock activated)
 STATUS_PIN=$(iniget $CONFIGFILE powerblock statuspin)
 SHUTDOWN_PIN=$(iniget $CONFIGFILE powerblock shutdownpin)
 DO_LOGGING=$(iniget $CONFIGFILE powerblock logging)
-
-echo "Starting PowerBlock driver, version $VERSION_MAJOR.$VERSION_MINOR.$VERSION_PATCH" | write_log
 
 if [[ $IS_ACTIVATED == 0 ]]; then
   echo "Shutdown is DEACTIVATED" | write_log
