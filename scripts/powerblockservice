@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 VERSION_MAJOR=2
-VERSION_MINOR=0
+VERSION_MINOR=1
 VERSION_PATCH=0
 
 # Common path for all GPIO access
@@ -9,18 +9,9 @@ BASE_GPIO_PATH=/sys/class/gpio
 
 # Assign names to states
 STATE_ON="1"
-STATE_OFF="0"
 
 CONFIGFILE=/etc/powerblockconfig.cfg
 SHUTDOWNSCRIPT=/etc/powerblockswitchoff.sh
-
-# Determine Raspberry Pi GPIO access chip
-# chip=4 for RPi5, chip=0 for older models
-if gpiodetect | grep -q "pinctrl-rp"; then
-  chip=4
-else
-  chip=0
-fi
 
 # ------------------- FUNCTION DEFINITIONS ---------------
 
@@ -33,8 +24,8 @@ function iniget() {
   local inifile=$1
 
   if [ "$2" == "--list" ]; then
-    for section in $(cat $inifile | grep "\[" | sed -e "s#\[##g" | sed -e "s#\]##g"); do
-      echo $section
+    for section in $(cat "$inifile" | grep "\[" | sed -e "s#\[##g" | sed -e "s#\]##g"); do
+      echo "$section"
     done
     return 0
   fi
@@ -45,15 +36,17 @@ function iniget() {
 
   # https://stackoverflow.com/questions/49399984/parsing-ini-file-in-bash
   # This awk line turns ini sections => [section-name]key=value
-  local lines=$(awk '/\[/{prefix=$0; next} $1{print prefix $0}' $inifile)
+  local lines
+  lines=$(awk '/\[/{prefix=$0; next} $1{print prefix $0}' "$inifile")
   for line in $lines; do
     if [[ "$line" = \[$section\]* ]]; then
-      local keyval=$(echo $line | sed -e "s/^\[$section\]//")
+      local keyval
+      keyval=$(echo "$line" | sed -e "s/^\[$section\]//")
       if [[ -z "$key" ]]; then
-        echo $keyval
+        echo "$keyval"
       else          
         if [[ "$keyval" = $key=* ]]; then
-          echo $(echo $keyval | sed -e "s/^$key=//")
+          echo "$keyval" | sed -e "s/^$key=//"
         fi
       fi
     fi
@@ -62,8 +55,8 @@ function iniget() {
 
 # Exports a pin if not already exported
 # Parameter $1: pin number
-exportPin() {
-  if [ ! -e $BASE_GPIO_PATH/gpio$1 ]; then
+exportPin() {  
+  if [ ! -e $BASE_GPIO_PATH/gpio"$1" ]; then
     echo "$1" > $BASE_GPIO_PATH/export
   fi
 }
@@ -71,28 +64,34 @@ exportPin() {
 # Set a pin as an output
 # Parameter $1: pin number to be set as output pin
 setDirectionOutput() {
-  echo "out" > $BASE_GPIO_PATH/gpio$1/direction
+  echo "out" > $BASE_GPIO_PATH/gpio"$1"/direction
 }
 
 # Set a pin as an output
 # Parameter $1: pin number to be set as output pin
 setDirectionInput() {
-  echo "in" > $BASE_GPIO_PATH/gpio$1/direction
+  echo "in" > $BASE_GPIO_PATH/gpio"$1"/direction
 }
 
 # Set value of a pin
 # Parameter $1: pin number
 # Parameter $2: output value. Can be 0 or 1
 setPinValue() {
-#  echo $2 > $BASE_GPIO_PATH/gpio$1/value
-  gpioset $chip $1=$2
+  if $GPIO_TOOLS_AVAILABLE; then
+    gpioset $chip "$1"="$2"
+ else
+    echo "$2" > $BASE_GPIO_PATH/gpio"$1"/value
+ fi
 }
 
 # Returns the current pin value
 # Parameter $1: pin number to be read from
 getPinValue() {
-#  echo $(cat $BASE_GPIO_PATH/gpio$1/value)
-  echo $(gpioget $chip $1)
+  if $GPIO_TOOLS_AVAILABLE; then
+    gpioget $chip "$1"
+  else
+    cat $BASE_GPIO_PATH/gpio"$1"/value
+  fi
 }
 
 doShutdown() {
@@ -114,9 +113,9 @@ checkForRoot() {
 write_log() 
 {
   if [[ $DO_LOGGING != 0 ]]; then
-    while read text
+    while read -r text
     do 
-      logger -t powerblockservice $text
+      logger -t powerblockservice "$text"
     done
   fi
 }
@@ -125,6 +124,23 @@ write_log()
 # ---------------- BEGIN OF MAIN PART ------------------
 
 checkForRoot
+
+# Check for gpiodetect availability
+if command -v gpiodetect >/dev/null 2>&1; then
+  GPIO_TOOLS_AVAILABLE=true
+  echo "GPIO tools available." | write_log
+else
+  GPIO_TOOLS_AVAILABLE=false
+  echo "GPIO tools not available. Trying sysfs method." | write_log
+fi
+
+# Determine Raspberry Pi GPIO access chip
+# chip=4 for RPi5, chip=0 for older models
+if $GPIO_TOOLS_AVAILABLE && gpiodetect | grep -q "pinctrl-rp"; then
+  chip=4
+else
+  chip=0
+fi
 
 # read configuration
 IS_ACTIVATED=$(iniget $CONFIGFILE powerblock activated)
@@ -142,14 +158,16 @@ fi
 echo "Shutdown Pin is $SHUTDOWN_PIN" | write_log
 echo "Status Pin is $STATUS_PIN" | write_log
 
-exportPin $STATUS_PIN
-exportPin $SHUTDOWN_PIN
+if ! $GPIO_TOOLS_AVAILABLE; then
+  exportPin "$STATUS_PIN"
+  exportPin "$SHUTDOWN_PIN"
 
-setDirectionOutput $STATUS_PIN
-setDirectionInput $SHUTDOWN_PIN
+  setDirectionOutput "$STATUS_PIN"
+  setDirectionInput "$SHUTDOWN_PIN"
+fi
 
 echo "Setting RPi status signal to HIGH" | write_log
-setPinValue $STATUS_PIN $STATE_ON
+setPinValue "$STATUS_PIN" $STATE_ON
 
 stopRunning() {
   echo "Exiting PowerBlock driver." | write_log
@@ -163,12 +181,12 @@ trap stopRunning SIGABRT
 trap stopRunning SIGTERM
 
 isShutdownRunning=0
-while [ 1 ]
+while true
 do
   sleep 1
   if [[ $IS_ACTIVATED != 0  ]]; then
-    currentValue=$(getPinValue $SHUTDOWN_PIN)
-    if [ $currentValue -eq $STATE_ON ]; then
+    currentValue=$(getPinValue "$SHUTDOWN_PIN")
+    if [ "$currentValue" -eq $STATE_ON ]; then
       if [ $isShutdownRunning -eq 0 ]; then
         echo "Shutdown signal observed. Executing shutdownscript $SHUTDOWNSCRIPT and initiating shutdown." | write_log
         doShutdown
