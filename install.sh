@@ -8,7 +8,7 @@ function prepare() {
     fi
 
     # ensure that all needed OS packages are installed
-    apt-get install -y gpiod wget unzip || (
+    apt-get install -y gpiod || (
         c=$?
         echo "Error during installation of APT packages"
         (exit $c)
@@ -19,10 +19,6 @@ function prepare() {
     if [[ $currentDirectory != "PowerBlock" ]]; then
         if [[ -d PowerBlock ]]; then
             rm -rf PowerBlock
-        fi
-
-        if [[ -f petrockblock_powerblock_master.zip ]]; then
-            rm -f petrockblock_powerblock_master.zip
         fi
 
         # Download and extract the repository
@@ -52,30 +48,36 @@ function installService() {
 }
 
 function updateBootConfig() {
-    FILE="/boot/config.txt"
+    FILE="$1" # Use the first argument as the file path
     LINE_TO_ENSURE="usb_max_current_enable=1"
     LINE_TO_REPLACE="usb_max_current_enable=0"
 
     # Check if the line exists and do nothing if it does
     if grep -Fxq "$LINE_TO_ENSURE" "$FILE"; then
-        echo "/boot/config.txt is up-to-date, no action taken."
+        echo "$FILE is up-to-date, no action taken."
     elif grep -Fxq "$LINE_TO_REPLACE" "$FILE"; then
         # If the line with usb_max_current_enable=0 exists, replace it
         sed -i "s/^$LINE_TO_REPLACE/$LINE_TO_ENSURE/" "$FILE"
-        echo "/boot/config.txt updated."
+        echo "$FILE updated."
     else
         # If the line does not exist, append it
         echo "$LINE_TO_ENSURE" | sudo tee -a "$FILE"
-        echo "/boot/config.txt updated."
+        echo "$FILE updated."
     fi
 }
+
 
 # ----------------------------------
 
 prepare
 installFiles
 installService
-updateBootConfig
+
+if [[ -f "/boot/config.txt" ]]; then
+    updateBootConfig "/boot/config.txt"
+elif [[ -f "/boot/firmware/config.txt" ]]; then
+    updateBootConfig "/boot/firmware/config.txt"
+fi
 
 sleep 3
 
