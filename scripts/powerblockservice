@@ -136,12 +136,17 @@ else
   echo "GPIO tools not available. Trying sysfs method." | write_log
 fi
 
+# Check for RPi model
+model=$(cat /proc/cpuinfo | grep 'Model' | awk '{print $5}')
+echo "Detected RPi model $model".
+
 # Determine Raspberry Pi GPIO access chip
 # chip=4 for RPi5, chip=0 for older models
-if $GPIO_TOOLS_AVAILABLE && gpiodetect | grep -q "pinctrl-rp"; then
+if [ $GPIO_TOOLS_AVAILABLE ] && [ "$model" -gt 4 ]; then
   chip=4
 else
   chip=0
+  GPIO_TOOLS_AVAILABLE=false  # gpioset is not working as expected. Therefore, use sysfs approach for RPi models < 5.
 fi
 
 # read configuration
