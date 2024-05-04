@@ -9,6 +9,7 @@ BASE_GPIO_PATH=/sys/class/gpio
 
 # Assign names to states
 STATE_ON="1"
+STATE_OFF="0"
 
 CONFIGFILE=/etc/powerblockconfig.cfg
 SHUTDOWNSCRIPT=/etc/powerblockswitchoff.sh
@@ -120,6 +121,20 @@ write_log()
   fi
 }
 
+# Flag to control the toggle loop
+keep_toggling=false
+
+# Function to toggle GPIO 17 at high frequency
+toggle_status_pin() 
+{
+  while $keep_toggling; do
+    setPinValue "$STATUS_PIN" $STATE_ON
+    sleep 0.1  # Toggling every 0.1 seconds
+    setPinValue "$STATUS_PIN" $STATE_OFF
+    sleep 0.1
+  done
+}
+
 
 # ---------------- BEGIN OF MAIN PART ------------------
 
@@ -175,6 +190,7 @@ echo "Setting RPi status signal to HIGH" | write_log
 setPinValue "$STATUS_PIN" $STATE_ON
 
 stopRunning() {
+  keep_toggling=false
   echo "Exiting PowerBlock driver." | write_log
   exit
 }
@@ -188,7 +204,7 @@ trap stopRunning SIGTERM
 isShutdownRunning=0
 while true
 do
-  sleep 1
+  sleep 0.5
   if [[ $IS_ACTIVATED != 0  ]]; then
     currentValue=$(getPinValue "$SHUTDOWN_PIN")
     if [ "$currentValue" -eq $STATE_ON ]; then
@@ -198,5 +214,13 @@ do
         isShutdownRunning=1
       fi
     fi
+  fi
+
+  # Check if the system is entering poweroff.target (systemd's target for shutdown)
+  if systemctl list-units --type=target --state=active | grep -q "poweroff.target"; then
+    echo "Shutdown detected, starting to signal to PowerBlock" | write_log
+    keep_toggling=true  # Set flag to start toggling
+    toggle_status_pin  # Start high-frequency toggle loop
+    break  # Break out of the monitoring loop
   fi
 done
