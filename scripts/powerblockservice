@@ -106,6 +106,28 @@ checkForRoot() {
   fi
 }
 
+ Checkkernel(){
+# check the kernel version if GT 6.6 Use Gpiotool event if not runing on a RP5
+  CURRENT_KERNEL_VERSION=$(uname --kernel-release | cut --delimiter="." --fields=1-2)
+  CURRENT_KERNEL_MAJOR_VERSION=$(echo "$CURRENT_KERNEL_VERSION" | cut --delimiter="." --fields=1)
+  CURRENT_KERNEL_MINOR_VERSION=$(echo "$CURRENT_KERNEL_VERSION" | cut --delimiter="." --fields=2)
+  ALLOWED_KERNEL_VERSION="6.6"
+  ALLOWED_KERNEL_MAJOR_VERSION=$(echo $ALLOWED_KERNEL_VERSION | cut --delimiter="." --fields=1)
+  ALLOWED_KERNEL_MINOR_VERSION=$(echo $ALLOWED_KERNEL_VERSION | cut --delimiter="." --fields=2)
+  if [ "$CURRENT_KERNEL_MAJOR_VERSION" -ge "$ALLOWED_KERNEL_MAJOR_VERSION" ]; then
+     if [ "$CURRENT_KERNEL_MINOR_VERSION" -lt "$ALLOWED_KERNEL_MINOR_VERSION" ]; then
+        echo " Kernel $CURRENT_KERNEL_VERSION gpiotools not supported, please use sysfs." | write_log
+        GPIO_TOOLS_AVAILABLE=false  # gpioset is not working as expected. Therefore, use sysfs approach for RPi models < 5.
+     else
+        echo " Kernel $CURRENT_KERNEL_VERSION please use gpiotools." | write_log
+        GPIO_TOOLS_AVAILABLE=true  # gpioset is working as expected.
+     fi
+  else
+     echo "Kernel $CURRENT_KERNEL_VERSION  Gpiotools not supported please use sysfs." | write_log
+     GPIO_TOOLS_AVAILABLE=false  # gpioset is not working as expected. Therefore, use sysfs approach for RPi models < 5.
+  fi
+}
+
 # ---------------- LOGGING FUNCTIONALITY ---------------
 
 # If the logger is enabled ($DO_LOGGING != 0), log events are written 
@@ -146,7 +168,7 @@ if [ $GPIO_TOOLS_AVAILABLE ] && [ "$model" -gt 4 ]; then
   chip=4
 else
   chip=0
-  GPIO_TOOLS_AVAILABLE=false  # gpioset is not working as expected. Therefore, use sysfs approach for RPi models < 5.
+  Checkkernel
 fi
 
 # read configuration
