@@ -76,19 +76,34 @@ setDirectionInput() {
 # Set value of a pin
 # Parameter $1: pin number
 # Parameter $2: output value. Can be 0 or 1
+# Note: In gpiod v2, gpioset exits immediately after setting the pin (unlike v1 which held the line).
+#       The & is required when started via init/systemd. The background process terminates quickly,
+#       and since this function is only called once at startup, there's no process accumulation.
 setPinValue() {
   if $GPIO_TOOLS_AVAILABLE; then
-    gpioset $chip "$1"="$2"
- else
+    if $GPIOD_V2; then
+      # gpiod v2 requires -c flag and exits immediately, so run in background
+      gpioset -c $chip "$1"="$2" &
+    else
+      # gpiod v1 uses positional chip argument
+      gpioset $chip "$1"="$2"
+    fi
+  else
     echo "$2" > $BASE_GPIO_PATH/gpio"$1"/value
- fi
+  fi
 }
 
 # Returns the current pin value
 # Parameter $1: pin number to be read from
 getPinValue() {
   if $GPIO_TOOLS_AVAILABLE; then
-    gpioget $chip "$1"
+    if $GPIOD_V2; then
+      # gpiod v2 requires --numeric and -c flags
+      gpioget --numeric -c $chip "$1"
+    else
+      # gpiod v1 uses positional chip argument
+      gpioget $chip "$1"
+    fi
   else
     cat $BASE_GPIO_PATH/gpio"$1"/value
   fi
@@ -158,13 +173,45 @@ else
   echo "GPIO tools not available. Trying sysfs method." | write_log
 fi
 
+# Detect gpiod version (v1 vs v2) for command syntax compatibility
+GPIOD_V2=false
+if $GPIO_TOOLS_AVAILABLE; then
+  GPIOD_VERSION=$(gpioset --version 2>&1 | grep -oE '[0-9]+\.[0-9]+' | head -1)
+  GPIOD_MAJOR_VERSION=$(echo "$GPIOD_VERSION" | cut -d. -f1)
+  if [ "$GPIOD_MAJOR_VERSION" -ge 2 ] 2>/dev/null; then
+    GPIOD_V2=true
+    echo "gpiod version $GPIOD_VERSION (v2 syntax)" | write_log
+  else
+    echo "gpiod version $GPIOD_VERSION (v1 syntax)" | write_log
+  fi
+fi
+
 # Check for RPi model
-model=$(cat /proc/cpuinfo | grep 'Model' | awk '{print $5}')
-echo "Detected RPi model $model".
+# Extract model number from /proc/cpuinfo, handling various formats:
+# - "Raspberry Pi 4 Model B" -> 4
+# - "Raspberry Pi 5 Model B" -> 5  
+# - "Raspberry Pi Zero 2 W" -> 2
+# - "Raspberry Pi Compute Module 4" -> 4
+model_string=$(grep -m1 'Model' /proc/cpuinfo | cut -d: -f2)
+# Try to extract numeric model from standard "Pi X Model" format first
+model=$(echo "$model_string" | grep -oE 'Pi [0-9]+' | grep -oE '[0-9]+')
+# If not found, try Zero format "Zero 2"
+if [ -z "$model" ]; then
+  model=$(echo "$model_string" | grep -oE 'Zero [0-9]+' | grep -oE '[0-9]+')
+fi
+# If not found, try Compute Module format
+if [ -z "$model" ]; then
+  model=$(echo "$model_string" | grep -oE 'Compute Module [0-9]+' | grep -oE '[0-9]+')
+fi
+# Default to 0 if no model number found
+if [ -z "$model" ]; then
+  model=0
+fi
+echo "Detected RPi model $model" | write_log
 
 # Determine Raspberry Pi GPIO access chip
-# chip=4 for RPi5, chip=0 for older models
-if [ $GPIO_TOOLS_AVAILABLE ] && [ "$model" -gt 4 ]; then
+# chip=4 for RPi5 and later, chip=0 for older models
+if $GPIO_TOOLS_AVAILABLE && [ "$model" -ge 5 ] 2>/dev/null; then
   chip=4
 else
   chip=0
