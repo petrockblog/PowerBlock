@@ -8,11 +8,9 @@ function prepare() {
     fi
 
     # ensure that all needed OS packages are installed
-    apt-get install -y gpiod || (
-        c=$?
-        echo "Error during installation of APT packages"
-        (exit $c)
-    )
+    if ! apt-get install -y gpiod; then
+        echo "[WARNING] Could not install the gpiod package. The PowerBlock driver will fall back to the legacy sysfs interface."
+    fi
 
     # ensure that we are within the PowerBlock directory
     currentDirectory=${PWD##*/}

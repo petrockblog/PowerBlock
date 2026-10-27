@@ -2,7 +2,7 @@
 
 VERSION_MAJOR=2
 VERSION_MINOR=1
-VERSION_PATCH=0
+VERSION_PATCH=1
 
 # Common path for all GPIO access
 BASE_GPIO_PATH=/sys/class/gpio
@@ -12,6 +12,9 @@ STATE_ON="1"
 
 CONFIGFILE=/etc/powerblockconfig.cfg
 SHUTDOWNSCRIPT=/etc/powerblockswitchoff.sh
+
+# PID of the background gpioset process that holds the status line (gpiod v2 only)
+GPIOSET_PID=""
 
 # ------------------- FUNCTION DEFINITIONS ---------------
 
@@ -76,17 +79,19 @@ setDirectionInput() {
 # Set value of a pin
 # Parameter $1: pin number
 # Parameter $2: output value. Can be 0 or 1
-# Note: In gpiod v2, gpioset exits immediately after setting the pin (unlike v1 which held the line).
-#       The & is required when started via init/systemd. The background process terminates quickly,
-#       and since this function is only called once at startup, there's no process accumulation.
+# Note: gpiod v2's gpioset keeps the line requested (and therefore driven) until the
+#       process exits. We therefore run it in the background and remember its PID, so
+#       the status line can be released again when the service stops. In gpiod v1 the
+#       default mode is "exit", i.e. the command returns after setting the value.
 setPinValue() {
   if $GPIO_TOOLS_AVAILABLE; then
     if $GPIOD_V2; then
-      # gpiod v2 requires -c flag and exits immediately, so run in background
-      gpioset -c $chip "$1"="$2" &
+      # gpiod v2 requires -c flag and holds the line until terminated
+      gpioset -c "$chip" "$1"="$2" &
+      GPIOSET_PID=$!
     else
       # gpiod v1 uses positional chip argument
-      gpioset $chip "$1"="$2"
+      gpioset "$chip" "$1"="$2"
     fi
   else
     echo "$2" > $BASE_GPIO_PATH/gpio"$1"/value
@@ -99,10 +104,10 @@ getPinValue() {
   if $GPIO_TOOLS_AVAILABLE; then
     if $GPIOD_V2; then
       # gpiod v2 requires --numeric and -c flags
-      gpioget --numeric -c $chip "$1"
+      gpioget --numeric -c "$chip" "$1"
     else
       # gpiod v1 uses positional chip argument
-      gpioget $chip "$1"
+      gpioget "$chip" "$1"
     fi
   else
     cat $BASE_GPIO_PATH/gpio"$1"/value
@@ -134,13 +139,35 @@ checkForRoot() {
         echo " Kernel $CURRENT_KERNEL_VERSION gpiotools not supported, please use sysfs." | write_log
         GPIO_TOOLS_AVAILABLE=false  # gpioset is not working as expected. Therefore, use sysfs approach for RPi models < 5.
      else
-        echo " Kernel $CURRENT_KERNEL_VERSION please use gpiotools." | write_log
-        GPIO_TOOLS_AVAILABLE=true  # gpioset is working as expected.
+        if $GPIO_TOOLS_AVAILABLE; then
+           echo " Kernel $CURRENT_KERNEL_VERSION please use gpiotools." | write_log
+        else
+           echo " Kernel $CURRENT_KERNEL_VERSION requires gpiod, but the gpiod tools are not installed. Using sysfs." | write_log
+           GPIO_TOOLS_AVAILABLE=false
+        fi
      fi
   else
      echo "Kernel $CURRENT_KERNEL_VERSION  Gpiotools not supported please use sysfs." | write_log
      GPIO_TOOLS_AVAILABLE=false  # gpioset is not working as expected. Therefore, use sysfs approach for RPi models < 5.
   fi
+}
+
+# Determine the GPIO chip that provides the 40-pin header.
+# The chip number is not stable across Raspberry Pi models and kernel versions:
+# on the Raspberry Pi 5 the RP1 GPIO controller was gpiochip4 before kernel 6.6.47
+# and is gpiochip0 from kernel 6.6.47 on. Derive it from gpiodetect instead of
+# hard-coding it based on the Pi model.
+determineGpioChip() {
+  local detected
+  detected=$(gpiodetect 2>/dev/null | awk '/pinctrl-rp1/ { gsub("gpiochip", "", $1); print $1; exit }')
+  if [ -n "$detected" ]; then
+    chip=$detected
+  elif [ -e /dev/gpiochip4 ]; then
+    chip=4
+  else
+    chip=0
+  fi
+  echo "Using GPIO chip $chip" | write_log
 }
 
 # ---------------- LOGGING FUNCTIONALITY ---------------
@@ -164,8 +191,12 @@ checkForRoot
 
 echo "Starting PowerBlock driver, version $VERSION_MAJOR.$VERSION_MINOR.$VERSION_PATCH" | write_log
 
-# Check for gpiodetect availability
-if command -v gpiodetect >/dev/null 2>&1; then
+# Check for the gpiod command-line tools. All three are needed: gpiodetect to
+# resolve the chip, gpioget to read the shutdown line, and gpioset to drive the
+# status line.
+if command -v gpiodetect >/dev/null 2>&1 \
+   && command -v gpioget >/dev/null 2>&1 \
+   && command -v gpioset >/dev/null 2>&1; then
   GPIO_TOOLS_AVAILABLE=true
   echo "GPIO tools available." | write_log
 else
@@ -209,13 +240,18 @@ if [ -z "$model" ]; then
 fi
 echo "Detected RPi model $model" | write_log
 
-# Determine Raspberry Pi GPIO access chip
-# chip=4 for RPi5 and later, chip=0 for older models
-if $GPIO_TOOLS_AVAILABLE && [ "$model" -ge 5 ] 2>/dev/null; then
-  chip=4
+# Determine the GPIO access method and chip.
+# Keep the legacy sysfs fallback for old kernels on pre-RPi 5 models, but
+# resolve the actual chip from gpiodetect when gpiod is available. This avoids
+# the hard-coded gpiochip4 assumption, which is wrong on RPi 5 with kernel 6.6.47+.
+if [ "$model" -lt 5 ] 2>/dev/null; then
+  Checkkernel
+fi
+
+if $GPIO_TOOLS_AVAILABLE; then
+  determineGpioChip
 else
   chip=0
-  Checkkernel
 fi
 
 # read configuration
@@ -240,11 +276,19 @@ if ! $GPIO_TOOLS_AVAILABLE; then
   setDirectionInput "$SHUTDOWN_PIN"
 fi
 
-echo "Setting RPi status signal to HIGH" | write_log
-setPinValue "$STATUS_PIN" $STATE_ON
+# Release the status line held by gpioset (gpiod v2) so that the PowerBlock
+# can detect that the Pi is no longer running.
+cleanup() {
+  if [ -n "$GPIOSET_PID" ] && kill -0 "$GPIOSET_PID" 2>/dev/null; then
+    kill "$GPIOSET_PID" 2>/dev/null
+    wait "$GPIOSET_PID" 2>/dev/null
+    GPIOSET_PID=""
+  fi
+}
 
 stopRunning() {
   echo "Exiting PowerBlock driver." | write_log
+  cleanup
   exit
 }
 
@@ -253,13 +297,33 @@ trap stopRunning SIGINT
 trap stopRunning SIGQUIT
 trap stopRunning SIGABRT
 trap stopRunning SIGTERM
+trap cleanup EXIT
+
+echo "Setting RPi status signal to HIGH" | write_log
+setPinValue "$STATUS_PIN" $STATE_ON
 
 isShutdownRunning=0
+readErrorLogged=0
 while true
 do
   sleep 1
   if [[ $IS_ACTIVATED != 0  ]]; then
-    currentValue=$(getPinValue "$SHUTDOWN_PIN")
+    currentValue=$(getPinValue "$SHUTDOWN_PIN" 2>/dev/null)
+    if [ -z "$currentValue" ]; then
+      if [ "$readErrorLogged" -eq 0 ]; then
+        if $GPIO_TOOLS_AVAILABLE; then
+          echo "Could not read shutdown pin $SHUTDOWN_PIN from GPIO chip $chip. Check the gpiod installation and the detected GPIO chip." | write_log
+        else
+          echo "Could not read shutdown pin $SHUTDOWN_PIN via sysfs. Check whether GPIO sysfs is available on this system." | write_log
+        fi
+        readErrorLogged=1
+      fi
+      continue
+    fi
+    if [ "$readErrorLogged" -eq 1 ]; then
+      echo "Reading shutdown pin $SHUTDOWN_PIN works again." | write_log
+      readErrorLogged=0
+    fi
     if [ "$currentValue" -eq $STATE_ON ]; then
       if [ $isShutdownRunning -eq 0 ]; then
         echo "Shutdown signal observed. Executing shutdownscript $SHUTDOWNSCRIPT and initiating shutdown." | write_log
